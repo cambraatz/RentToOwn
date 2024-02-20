@@ -25,8 +25,8 @@ function App() {
     setCookie('user', userId);
     /*document.cookie = `user=${userId}`*/
   }
-  alert(cookies.user);
-  alert(document.cookie);
+  //alert(cookies.user);
+  //alert(document.cookie);
   return (
     <div>
       <HomePage user_id={cookies.user} />

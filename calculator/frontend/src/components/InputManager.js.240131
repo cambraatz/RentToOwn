@@ -16,13 +16,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CalculateIcon from '@mui/icons-material/Calculate';
 //import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
-//import Table from "../components/Table";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import Table from "./Table";
 import axios from "axios";
 import { Cookies } from "react-cookie";
 import { useCookies } from 'react-cookie';
@@ -30,21 +24,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useRouter, useNavigate } from "react-router-dom"
 //import Button from "@material-ui/core/Button";
-import Grid from '@mui/material/Unstable_Grid2';
-import { TextField } from "@mui/material";
-import { InputAdornment } from "@mui/material";
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
-
+//import Grid from "@material-ui/core/Grid";
 //import Typography from "@material-ui/core/Typography";
 //import TextField from "@material-ui/core/TextField";
 //import FormHelperText from "@material-ui/core/FormHelperText";
@@ -54,12 +34,19 @@ const Item = styled(Paper)(({ theme }) => ({
 //import RadioGroup from "@material-ui/core/RadioGroup";
 //import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-const InputManager = (props) => {  
+const InputManager = (props) => {    
+    const [userID, setUserID] = useState('NA');
+    
+    useEffect(() => {
+        if (formData.user_id === 'NA') {
+            getData()
+        }
+    })
     
     /* State Manager for JSON Form Data */
     const Navigate = useNavigate()
     const [formData, setFormData] = useState({
-        user_id: props.user_id,
+        user_id: userID,
         purchase_price: 500000,
         hold_period: 5,
         hold_period_m: 60,
@@ -122,9 +109,29 @@ const InputManager = (props) => {
         //alert(document.cookie)
         //alert(getCookie("user"))
         e.preventDefault();
-        //const valid = fetch(`/api/datafields/${formData.user_id}`)
-        if (e.user_id) {
-        //if (valid) {
+        //let id = document.cookie
+
+        //alert(id)
+        //const valid = props.user_id
+        //if (e.user_id) {
+        alert(formData.user_id)
+        if (formData.user_id === 'NA') {
+            const uuid = uuidv4()
+            setUserID(uuid);
+            setFormData({...formData, 'user_id': uuid});
+            alert(uuid);
+            alert(formData.user_id);
+            const requestOptions = {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(formData),
+            };
+            fetch("/api/createdatafield", requestOptions)
+                .then((response) => response.json())
+                //.then((data) => Navigate(`/datafield/${data.user_id}`));
+                .then((data) => setFormData({'user_id': data.user_id, ...formData}));
+            alert(formData)
+        } else {
             const requestOptions = {
                 method: "PUT",
                 headers: {"Content-Type": "application/json"},
@@ -135,59 +142,11 @@ const InputManager = (props) => {
                 //.then((data) => Navigate(`/datafield/${data.user_id}`));
                 .then((data) => {
                     setFormData({'user_id': data.user_id, ...formData})
-                    setMCFTable(data.MCF)
-                    setACFTable(data.ACF)
-                    setMCFInterest(data.total_interest)
-                    setMCFMortInsPay(data.mortgage_insurance_payment)
-                    setAmortization(data.amortization)
-
-                    setInitEquityNOR(data.initial_equity_NOR)
-                    setInitEquityGROSS(data.initial_equity_GROSS)
-                    setMaxEquityNOR(data.max_equity_NOR)
-                    setMaxEquityGROSS(data.max_equity_GROSS)
-                    setProfitNOR(data.profit_NOR)
-                    setProfitGROSS(data.profit_GROSS)
-                    setUNLVIRRNOR(data.unlv_irr_NOR)
-                    setUNLVIRRGROSS(data.unlv_irr_GROSS)
-                    setLVIRRNOR(data.lv_irr_NOR)
-                    setLVIRRGROSS(data.lv_irr_GROSS)
-                    setLVEMNOR(data.lv_em_NOR)
-                    setLVEMGROSS(data.lv_em_GROSS)
-                });
-        } else {
-            const requestOptions = {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(formData),
-            };
-            fetch("/api/createdatafield", requestOptions)
-                .then((response) => response.json())
-                //.then((data) => Navigate(`/datafield/${data.user_id}`));
-                .then((data) => {
-                    setFormData({'user_id': data.user_id, ...formData})
-                    setMCFTable(data.MCF)
-                    setACFTable(data.ACF)
-                    setMCFInterest(data.total_interest)
-                    setMCFMortInsPay(data.mortgage_insurance_payment)
-                    setAmortization(data.amortization)
-
-                    setInitEquityNOR(data.initial_equity_NOR)
-                    setInitEquityGROSS(data.initial_equity_GROSS)
-                    setMaxEquityNOR(data.max_equity_NOR)
-                    setMaxEquityGROSS(data.max_equity_GROSS)
-                    setProfitNOR(data.profit_NOR)
-                    setProfitGROSS(data.profit_GROSS)
-                    setUNLVIRRNOR(data.unlv_irr_NOR)
-                    setUNLVIRRGROSS(data.unlv_irr_GROSS)
-                    setLVIRRNOR(data.lv_irr_NOR)
-                    setLVIRRGROSS(data.lv_irr_GROSS)
-                    setLVEMNOR(data.lv_em_NOR)
-                    setLVEMGROSS(data.lv_em_GROSS)
+                    
                 });
         }
     }
 
-    /*
     const getData = (e) => {
         const requestOptions = {
             method: "GET",
@@ -210,7 +169,14 @@ const InputManager = (props) => {
             .catch((error) => {
                 console.log(error)
                 handleSubmit
-            });*/
+                /*
+                if(cookies.user === undefined) {
+                    const userId = uuidv4();
+                    setCookie(userId);
+                    setFormData(user_id=userId)
+                    #document.cookie = `user=${userId}`
+                }*/
+            });
 
         /*
         fetch("/api/getdata" + "?user_id=" + props.user_id)
@@ -221,8 +187,8 @@ const InputManager = (props) => {
                 setMCFLTable(data.mcfl_table)
                 setMCFRTable(data.mcfr_table)
             });
-            
-    }*/
+            */
+    }
 
     /* State Manager for Purchase Assumptions */ 
     const [purchasePrice, setPurchasePrice] = useState(500000);
@@ -834,195 +800,278 @@ const InputManager = (props) => {
                 <tr>
                     <th>Monthly Rent</th>
                     <td>0.0</td>
-                    <td>-3300.000000</td>
-                    <td>-3300.000000</td>
-                    <td>-3300.000000</td>
-                    <td>-3300.000000</td>
-                    <td>-3300.000000</td>
-                    <td>-3300.000000</td>
-                    <td>-3300.000000</td>
-                    <td>-3300.000000</td>
-                    <td>-3300.000000</td>
-                    <td>-3300.000000</td>
-                    <td>-3300.000000</td>
-                    <td>-3300.000000</td>
-                    <td>-3399.000000</td>
-                    <td>-3399.000000</td>
-                    <td>-3399.000000</td>
-                    <td>-3399.000000</td>
-                    <td>-3399.000000</td>
-                    <td>-3399.000000</td>
-                    <td>-3399.000000</td>
-                    <td>-3399.000000</td>
-                    <td>-3399.000000</td>
-                    <td>-3399.000000</td>
-                    <td>-3399.000000</td>
-                    <td>-3399.000000</td>
-                    <td>-3500.970000</td>
-                    <td>-3500.970000</td>
-                    <td>-3500.970000</td>
-                    <td>-3500.970000</td>
-                    <td>-3500.970000</td>
-                    <td>-3500.970000</td>
-                    <td>-3500.970000</td>
-                    <td>-3500.970000</td>
-                    <td>-3500.970000</td>
-                    <td>-3500.970000</td>
-                    <td>-3500.970000</td>
-                    <td>-3500.970000</td>
-                    <td>-3606.000000</td>
-                    <td>-3606.000000</td>
-                    <td>-3606.000000</td>
-                    <td>-3606.000000</td>
-                    <td>-3606.000000</td>
-                    <td>-3606.000000</td>
-                    <td>-3606.000000</td>
-                    <td>-3606.000000</td>
-                    <td>-3606.000000</td>
-                    <td>-3606.000000</td>
-                    <td>-3606.000000</td>
-                    <td>-3606.000000</td>
-                    <td>-3714.180000</td>
-                    <td>-3714.180000</td>
-                    <td>-3714.180000</td>
-                    <td>-3714.180000</td>
-                    <td>-3714.180000</td>
-                    <td>-3714.180000</td>
-                    <td>-3714.180000</td>
-                    <td>-3714.180000</td>
-                    <td>-3714.180000</td>
-                    <td>-3714.180000</td>
-                    <td>-3714.180000</td>
-                    <td>-3714.180000</td>
+                    <td>-3300.0</td>
+                    <td>-3300.0</td>
+                    <td>-3300.0</td>
+                    <td>-3300.0</td>
+                    <td>-3300.0</td>
+                    <td>-3300.0</td>
+                    <td>-3300.0</td>
+                    <td>-3300.0</td>
+                    <td>-3300.0</td>
+                    <td>-3300.0</td>
+                    <td>-3300.0</td>
+                    <td>-3300.0</td>
+                    <td>-3399.0</td>
+                    <td>-3399.0</td>
+                    <td>-3399.0</td>
+                    <td>-3399.0</td>
+                    <td>-3399.0</td>
+                    <td>-3399.0</td>
+                    <td>-3399.0</td>
+                    <td>-3399.0</td>
+                    <td>-3399.0</td>
+                    <td>-3399.0</td>
+                    <td>-3399.0</td>
+                    <td>-3399.0</td>
+                    <td>-3500.97</td>
+                    <td>-3500.97</td>
+                    <td>-3500.97</td>
+                    <td>-3500.97</td>
+                    <td>-3500.97</td>
+                    <td>-3500.97</td>
+                    <td>-3500.97</td>
+                    <td>-3500.97</td>
+                    <td>-3500.97</td>
+                    <td>-3500.97</td>
+                    <td>-3500.97</td>
+                    <td>-3500.97</td>
+                    <td>-3606.00</td>
+                    <td>-3606.00</td>
+                    <td>-3606.00</td>
+                    <td>-3606.00</td>
+                    <td>-3606.00</td>
+                    <td>-3606.00</td>
+                    <td>-3606.00</td>
+                    <td>-3606.00</td>
+                    <td>-3606.00</td>
+                    <td>-3606.00</td>
+                    <td>-3606.00</td>
+                    <td>-3606.00</td>
+                    <td>-3714.18</td>
+                    <td>-3714.18</td>
+                    <td>-3714.18</td>
+                    <td>-3714.18</td>
+                    <td>-3714.18</td>
+                    <td>-3714.18</td>
+                    <td>-3714.18</td>
+                    <td>-3714.18</td>
+                    <td>-3714.18</td>
+                    <td>-3714.18</td>
+                    <td>-3714.18</td>
+                    <td>-3714.18</td>
                 </tr>
                 <tr>
                     <th>Renter's Insurance</th>
                     <td>0.0</td>
-                    <td>-50.000000</td>
-                    <td>-50.000000</td>
-                    <td>-50.000000</td>
-                    <td>-50.000000</td>
-                    <td>-50.000000</td>
-                    <td>-50.000000</td>
-                    <td>-50.000000</td>
-                    <td>-50.000000</td>
-                    <td>-50.000000</td>
-                    <td>-50.000000</td>
-                    <td>-50.000000</td>
-                    <td>-50.000000</td>
-                    <td>-51.500000</td>
-                    <td>-51.500000</td>
-                    <td>-51.500000</td>
-                    <td>-51.500000</td>
-                    <td>-51.500000</td>
-                    <td>-51.500000</td>
-                    <td>-51.500000</td>
-                    <td>-51.500000</td>
-                    <td>-51.500000</td>
-                    <td>-51.500000</td>
-                    <td>-51.500000</td>
-                    <td>-51.500000</td>
-                    <td>-53.040000</td>
-                    <td>-53.040000</td>
-                    <td>-53.040000</td>
-                    <td>-53.040000</td>
-                    <td>-53.040000</td>
-                    <td>-53.040000</td>
-                    <td>-53.040000</td>
-                    <td>-53.040000</td>
-                    <td>-53.040000</td>
-                    <td>-53.040000</td>
-                    <td>-53.040000</td>
-                    <td>-53.040000</td>
-                    <td>-54.630000</td>
-                    <td>-54.630000</td>
-                    <td>-54.630000</td>
-                    <td>-54.630000</td>
-                    <td>-54.630000</td>
-                    <td>-54.630000</td>
-                    <td>-54.630000</td>
-                    <td>-54.630000</td>
-                    <td>-54.630000</td>
-                    <td>-54.630000</td>
-                    <td>-54.630000</td>
-                    <td>-54.630000</td>
-                    <td>-56.270000</td>
-                    <td>-56.270000</td>
-                    <td>-56.270000</td>
-                    <td>-56.270000</td>
-                    <td>-56.270000</td>
-                    <td>-56.270000</td>
-                    <td>-56.270000</td>
-                    <td>-56.270000</td>
-                    <td>-56.270000</td>
-                    <td>-56.270000</td>
-                    <td>-56.270000</td>
-                    <td>-56.270000</td>
+                    <td>-50.0</td>
+                    <td>-50.0</td>
+                    <td>-50.0</td>
+                    <td>-50.0</td>
+                    <td>-50.0</td>
+                    <td>-50.0</td>
+                    <td>-50.0</td>
+                    <td>-50.0</td>
+                    <td>-50.0</td>
+                    <td>-50.0</td>
+                    <td>-50.0</td>
+                    <td>-50.0</td>
+                    <td>-51.5</td>
+                    <td>-51.5</td>
+                    <td>-51.5</td>
+                    <td>-51.5</td>
+                    <td>-51.5</td>
+                    <td>-51.5</td>
+                    <td>-51.5</td>
+                    <td>-51.5</td>
+                    <td>-51.5</td>
+                    <td>-51.5</td>
+                    <td>-51.5</td>
+                    <td>-51.5</td>
+                    <td>-53.04</td>
+                    <td>-53.04</td>
+                    <td>-53.04</td>
+                    <td>-53.04</td>
+                    <td>-53.04</td>
+                    <td>-53.04</td>
+                    <td>-53.04</td>
+                    <td>-53.04</td>
+                    <td>-53.04</td>
+                    <td>-53.04</td>
+                    <td>-53.04</td>
+                    <td>-53.04</td>
+                    <td>-54.63</td>
+                    <td>-54.63</td>
+                    <td>-54.63</td>
+                    <td>-54.63</td>
+                    <td>-54.63</td>
+                    <td>-54.63</td>
+                    <td>-54.63</td>
+                    <td>-54.63</td>
+                    <td>-54.63</td>
+                    <td>-54.63</td>
+                    <td>-54.63</td>
+                    <td>-54.63</td>
+                    <td>-56.27</td>
+                    <td>-56.27</td>
+                    <td>-56.27</td>
+                    <td>-56.27</td>
+                    <td>-56.27</td>
+                    <td>-56.27</td>
+                    <td>-56.27</td>
+                    <td>-56.27</td>
+                    <td>-56.27</td>
+                    <td>-56.27</td>
+                    <td>-56.27</td>
+                    <td>-56.27</td>
                 </tr>
                 <tr>
                     <th>Renter's Cash Flow</th>
                     <td>0.0</td>
-                    <td>-3350.000000</td>
-                    <td>-3350.000000</td>
-                    <td>-3350.000000</td>
-                    <td>-3350.000000</td>
-                    <td>-3350.000000</td>
-                    <td>-3350.000000</td>
-                    <td>-3350.000000</td>
-                    <td>-3350.000000</td>
-                    <td>-3350.000000</td>
-                    <td>-3350.000000</td>
-                    <td>-3350.000000</td>
-                    <td>-3350.000000</td>
-                    <td>-3450.500000</td>
-                    <td>-3450.500000</td>
-                    <td>-3450.500000</td>
-                    <td>-3450.500000</td>
-                    <td>-3450.500000</td>
-                    <td>-3450.500000</td>
-                    <td>-3450.500000</td>
-                    <td>-3450.500000</td>
-                    <td>-3450.500000</td>
-                    <td>-3450.500000</td>
-                    <td>-3450.500000</td>
-                    <td>-3450.500000</td>
-                    <td>-3554.010000</td>
-                    <td>-3554.010000</td>
-                    <td>-3554.010000</td>
-                    <td>-3554.010000</td>
-                    <td>-3554.010000</td>
-                    <td>-3554.010000</td>
-                    <td>-3554.010000</td>
-                    <td>-3554.010000</td>
-                    <td>-3554.010000</td>
-                    <td>-3554.010000</td>
-                    <td>-3554.010000</td>
-                    <td>-3554.010000</td>
-                    <td>-3660.630000</td>
-                    <td>-3660.630000</td>
-                    <td>-3660.630000</td>
-                    <td>-3660.630000</td>
-                    <td>-3660.630000</td>
-                    <td>-3660.630000</td>
-                    <td>-3660.630000</td>
-                    <td>-3660.630000</td>
-                    <td>-3660.630000</td>
-                    <td>-3660.630000</td>
-                    <td>-3660.630000</td>
-                    <td>-3660.630000</td>
-                    <td>-3770.450000</td>
-                    <td>-3770.450000</td>
-                    <td>-3770.450000</td>
-                    <td>-3770.450000</td>
-                    <td>-3770.450000</td>
-                    <td>-3770.450000</td>
-                    <td>-3770.450000</td>
-                    <td>-3770.450000</td>
-                    <td>-3770.450000</td>
-                    <td>-3770.450000</td>
-                    <td>-3770.450000</td>
-                    <td>-3770.450000</td>
+                    <td>-3350.0</td>
+                    <td>-3350.0</td>
+                    <td>-3350.0</td>
+                    <td>-3350.0</td>
+                    <td>-3350.0</td>
+                    <td>-3350.0</td>
+                    <td>-3350.0</td>
+                    <td>-3350.0</td>
+                    <td>-3350.0</td>
+                    <td>-3350.0</td>
+                    <td>-3350.0</td>
+                    <td>-3350.0</td>
+                    <td>-3450.5</td>
+                    <td>-3450.5</td>
+                    <td>-3450.5</td>
+                    <td>-3450.5</td>
+                    <td>-3450.5</td>
+                    <td>-3450.5</td>
+                    <td>-3450.5</td>
+                    <td>-3450.5</td>
+                    <td>-3450.5</td>
+                    <td>-3450.5</td>
+                    <td>-3450.5</td>
+                    <td>-3450.5</td>
+                    <td>-3554.01</td>
+                    <td>-3554.01</td>
+                    <td>-3554.01</td>
+                    <td>-3554.01</td>
+                    <td>-3554.01</td>
+                    <td>-3554.01</td>
+                    <td>-3554.01</td>
+                    <td>-3554.01</td>
+                    <td>-3554.01</td>
+                    <td>-3554.01</td>
+                    <td>-3554.01</td>
+                    <td>-3554.01</td>
+                    <td>-3660.63</td>
+                    <td>-3660.63</td>
+                    <td>-3660.63</td>
+                    <td>-3660.63</td>
+                    <td>-3660.63</td>
+                    <td>-3660.63</td>
+                    <td>-3660.63</td>
+                    <td>-3660.63</td>
+                    <td>-3660.63</td>
+                    <td>-3660.63</td>
+                    <td>-3660.63</td>
+                    <td>-3660.63</td>
+                    <td>-3770.45</td>
+                    <td>-3770.45</td>
+                    <td>-3770.45</td>
+                    <td>-3770.45</td>
+                    <td>-3770.45</td>
+                    <td>-3770.45</td>
+                    <td>-3770.45</td>
+                    <td>-3770.45</td>
+                    <td>-3770.45</td>
+                    <td>-3770.45</td>
+                    <td>-3770.45</td>
+                    <td>-3770.45</td>
                 </tr>
+                </tbody>
+            </table>
+        `]
+    );
+    const [mcfuTable, setMCFUTable] = useState(
+        [`
+            <table class="dataframe">
+                <thead>
+                <tr>
+                    <th>Years</th>
+                    <th>0.0</th>
+                    <th colspan="12" halign="left">1.0</th>
+                    <th colspan="12" halign="left">2.0</th>
+                    <th colspan="12" halign="left">3.0</th>
+                    <th colspan="12" halign="left">4.0</th>
+                    <th colspan="12" halign="left">5.0</th>
+                </tr>
+                <tr>
+                    <th>Months</th>
+                    <th>0</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>7</th>
+                    <th>8</th>
+                    <th>9</th>
+                    <th>10</th>
+                    <th>11</th>
+                    <th>12</th>
+                    <th>13</th>
+                    <th>14</th>
+                    <th>15</th>
+                    <th>16</th>
+                    <th>17</th>
+                    <th>18</th>
+                    <th>19</th>
+                    <th>20</th>
+                    <th>21</th>
+                    <th>22</th>
+                    <th>23</th>
+                    <th>24</th>
+                    <th>25</th>
+                    <th>26</th>
+                    <th>27</th>
+                    <th>28</th>
+                    <th>29</th>
+                    <th>30</th>
+                    <th>31</th>
+                    <th>32</th>
+                    <th>33</th>
+                    <th>34</th>
+                    <th>35</th>
+                    <th>36</th>
+                    <th>37</th>
+                    <th>38</th>
+                    <th>39</th>
+                    <th>40</th>
+                    <th>41</th>
+                    <th>42</th>
+                    <th>43</th>
+                    <th>44</th>
+                    <th>45</th>
+                    <th>46</th>
+                    <th>47</th>
+                    <th>48</th>
+                    <th>49</th>
+                    <th>50</th>
+                    <th>51</th>
+                    <th>52</th>
+                    <th>53</th>
+                    <th>54</th>
+                    <th>55</th>
+                    <th>56</th>
+                    <th>57</th>
+                    <th>58</th>
+                    <th>59</th>
+                    <th>60</th>
+                </tr>
+                </thead>
+                <tbody>
                 <tr>
                     <th>Acquisition</th>
                     <td>-500000.0</td>
@@ -1727,6 +1776,89 @@ const InputManager = (props) => {
                     <td>2719.975111</td>
                     <td>579882.012261</td>
                 </tr>
+                </tbody>
+            </table>
+        `]
+    );
+    const [mcflTable, setMCFLTable] = useState(
+        [`
+            <table class="dataframe">
+                <thead>
+                <tr>
+                    <th>Years</th>
+                    <th>0.0</th>
+                    <th colspan="12" halign="left">1.0</th>
+                    <th colspan="12" halign="left">2.0</th>
+                    <th colspan="12" halign="left">3.0</th>
+                    <th colspan="12" halign="left">4.0</th>
+                    <th colspan="12" halign="left">5.0</th>
+                </tr>
+                <tr>
+                    <th>Months</th>
+                    <th>0</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>7</th>
+                    <th>8</th>
+                    <th>9</th>
+                    <th>10</th>
+                    <th>11</th>
+                    <th>12</th>
+                    <th>13</th>
+                    <th>14</th>
+                    <th>15</th>
+                    <th>16</th>
+                    <th>17</th>
+                    <th>18</th>
+                    <th>19</th>
+                    <th>20</th>
+                    <th>21</th>
+                    <th>22</th>
+                    <th>23</th>
+                    <th>24</th>
+                    <th>25</th>
+                    <th>26</th>
+                    <th>27</th>
+                    <th>28</th>
+                    <th>29</th>
+                    <th>30</th>
+                    <th>31</th>
+                    <th>32</th>
+                    <th>33</th>
+                    <th>34</th>
+                    <th>35</th>
+                    <th>36</th>
+                    <th>37</th>
+                    <th>38</th>
+                    <th>39</th>
+                    <th>40</th>
+                    <th>41</th>
+                    <th>42</th>
+                    <th>43</th>
+                    <th>44</th>
+                    <th>45</th>
+                    <th>46</th>
+                    <th>47</th>
+                    <th>48</th>
+                    <th>49</th>
+                    <th>50</th>
+                    <th>51</th>
+                    <th>52</th>
+                    <th>53</th>
+                    <th>54</th>
+                    <th>55</th>
+                    <th>56</th>
+                    <th>57</th>
+                    <th>58</th>
+                    <th>59</th>
+                    <th>60</th>
+                </tr>
+                </thead>
+                <tbody>
                 <tr>
                     <th>Loan Proceeds</th>
                     <td>400000.0</td>
@@ -2434,279 +2566,1789 @@ const InputManager = (props) => {
                 </tbody>
             </table>
         `]
-    )
-
-    const [acfTable, setACFTable] = useState(
+    );
+    const [mcfrTable, setMCFRTable] = useState(
         [`
             <table class="dataframe">
                 <thead>
-                <tr>
-                    <th>Years</th>
-                    <th>0</th>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>3</th>
-                    <th>4</th>
-                    <th>5</th>
-                </tr>
-                <tr>
-                    <th>Months</th>
-                    <th>0.0</th>
-                    <th>12.0</th>
-                    <th>24.0</th>
-                    <th>36.0</th>
-                    <th>48.0</th>
-                    <th>60.0</th>
-                </tr>
+                    <tr style="text-align: right;">
+                        <th></th>
+                        <th></th>
+                        <th>Monthly Rent</th>
+                        <th>Renter's Insurance</th>
+                        <th>Renter's Cash Flow</th>
+                        <th>Acquisition</th>
+                        <th>Acquisition Costs</th>
+                        <th>Sale</th>
+                        <th>Disposition Costs</th>
+                        <th>Property Tax</th>
+                        <th>Property Tax Shield</th>
+                        <th>Insurance</th>
+                        <th>Maintenance</th>
+                        <th>Condo Dues</th>
+                        <th>Unlevered Owner Cash Flow</th>
+                        <th>Unlevered Net Cash Flow</th>
+                        <th>Loan Proceeds</th>
+                        <th>Loan Repayment</th>
+                        <th>Amortization</th>
+                        <th>Loan Points</th>
+                        <th>Interest</th>
+                        <th>Interest Tax Shield</th>
+                        <th>Mortgage Insurance</th>
+                        <th>Levered Owner Cash Flow</th>
+                        <th>Levered Net Cash Flow</th>
+                        <th>Cum. Gross Equity</th>
+                        <th>Cum. Net Equity</th>
+                    </tr>
+                    <tr>
+                        <th>Years</th>
+                        <th>Months</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <th>Monthly Rent</th>
-                    <td>0.0</td>
-                    <td>-39600.000000</td>
-                    <td>-40788.000000</td>
-                    <td>-42011.640000</td>
-                    <td>-43272.000000</td>
-                    <td>-44570.160000</td>
-                </tr>
-                <tr>
-                    <th>Renter's Insurance</th>
-                    <td>0.0</td>
-                    <td>-600.000000</td>
-                    <td>-618.000000</td>
-                    <td>-636.480000</td>
-                    <td>-655.560000</td>
-                    <td>-675.240000</td>
-                </tr>
-                <tr>
-                    <th>Renter's Cash Flow</th>
-                    <td>0.0</td>
-                    <td>-40200.000000</td>
-                    <td>-41406.000000</td>
-                    <td>-42648.120000</td>
-                    <td>-43927.560000</td>
-                    <td>-45245.400000</td>
-                </tr>
-                <tr>
-                    <th>Acquisition</th>
+                    <th>0.0</th>
+                    <th>0</th>
+                    <td>0.00</td>
+                    <td>0.00</td>
+                    <td>0.00</td>
                     <td>-500000.0</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                </tr>
-                <tr>
-                    <th>Acquisition Costs</th>
                     <td>-7750.0</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                </tr>
-                <tr>
-                    <th>Sale</th>
+                    <td>0.00</td>
                     <td>0.0</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>579637.037150</td>
-                </tr>
-                <tr>
-                    <th>Disposition Costs</th>
-                    <td>0.0</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>-2475.000000</td>
-                </tr>
-                <tr>
-                    <th>Property Tax</th>
-                    <td>0.0</td>
-                    <td>-3000.000000</td>
-                    <td>-3090.000000</td>
-                    <td>-3182.700000</td>
-                    <td>-3278.181000</td>
-                    <td>-3376.526430</td>
-                </tr>
-                <tr>
-                    <th>Property Tax Shield</th>
-                    <td>0.0</td>
-                    <td>1050.000000</td>
-                    <td>1081.500000</td>
-                    <td>1113.945000</td>
-                    <td>1147.363350</td>
-                    <td>1181.784251</td>
-                </tr>
-                <tr>
-                    <th>Insurance</th>
-                    <td>0.0</td>
-                    <td>-3000.000000</td>
-                    <td>-3090.000000</td>
-                    <td>-3182.700000</td>
-                    <td>-3278.181000</td>
-                    <td>-3376.526430</td>
-                </tr>
-                <tr>
-                    <th>Maintenance</th>
-                    <td>0.0</td>
-                    <td>-5000.000000</td>
-                    <td>-5150.000000</td>
-                    <td>-5304.500000</td>
-                    <td>-5463.635000</td>
-                    <td>-5627.544050</td>
-                </tr>
-                <tr>
-                    <th>Condo Dues</th>
-                    <td>0.0</td>
-                    <td>-1250.000000</td>
-                    <td>-1287.500000</td>
-                    <td>-1326.125000</td>
-                    <td>-1365.908750</td>
-                    <td>-1406.886013</td>
-                </tr>
-                <tr>
-                    <th>Unlevered Owner Cash Flow</th>
-                    <td>-507750.0</td>
-                    <td>-11200.000000</td>
-                    <td>-11536.000000</td>
-                    <td>-11882.080000</td>
-                    <td>-12238.542400</td>
-                    <td>564556.338478</td>
-                </tr>
-                <tr>
-                    <th>Unlevered Net Cash Flow</th>
-                    <td>-507750.0</td>
-                    <td>29000.000000</td>
-                    <td>29870.000000</td>
-                    <td>30766.040000</td>
-                    <td>31689.017600</td>
-                    <td>609801.738478</td>
-                </tr>
-                <tr>
-                    <th>Loan Proceeds</th>
+                    <td>0.00</td>
+                    <td>0.00</td>
+                    <td>0.00</td>
+                    <td>0.00</td>
+                    <td>0.00</td>
+                    <td>-507750.00</td>
+                    <td>-507750.00</td>
                     <td>400000.0</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                </tr>
-                <tr>
-                    <th>Loan Repayment</th>
-                    <td>0.0</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>-374736.288386</td>
-                </tr>
-                <tr>
-                    <th>Amortization</th>
-                    <td>0.0</td>
-                    <td>-4373.097004</td>
-                    <td>-4689.228438</td>
-                    <td>-5028.213238</td>
-                    <td>-5391.703113</td>
-                    <td>-5781.469821</td>
-                </tr>
-                <tr>
-                    <th>Loan Points</th>
+                    <td>0.00</td>
+                    <td>0.00</td>
                     <td>-4000.0</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                </tr>
-                <tr>
-                    <th>Interest</th>
+                    <td>0.00</td>
+                    <td>0.00</td>
                     <td>0.0</td>
-                    <td>-27861.464400</td>
-                    <td>-27545.332967</td>
-                    <td>-27206.348167</td>
-                    <td>-26842.858292</td>
-                    <td>-26453.091583</td>
+                    <td>-111750.00</td>
+                    <td>-111750.00</td>
+                    <td>-111750.00</td>
+                    <td>-111750.00</td>
                 </tr>
                 <tr>
-                    <th>Interest Tax Shield</th>
+                    <th rowspan="12" valign="top">1.0</th>
+                    <th>1</th>
+                    <td>-3300.00</td>
+                    <td>-50.00</td>
+                    <td>-3350.00</td>
                     <td>0.0</td>
-                    <td>9751.512540</td>
-                    <td>9640.866538</td>
-                    <td>9522.221858</td>
-                    <td>9395.000402</td>
-                    <td>9258.582054</td>
-                </tr>
-                <tr>
-                    <th>Mortgage Insurance</th>
                     <td>0.0</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
-                    <td>0.000000</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-250.00</td>
+                    <td>87.50</td>
+                    <td>-250.00</td>
+                    <td>-416.67</td>
+                    <td>-104.17</td>
+                    <td>-933.33</td>
+                    <td>2416.67</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-352.88</td>
+                    <td>0.0</td>
+                    <td>-2333.33</td>
+                    <td>816.67</td>
+                    <td>-0.0</td>
+                    <td>-2802.88</td>
+                    <td>547.12</td>
+                    <td>-114552.88</td>
+                    <td>-111202.88</td>
                 </tr>
                 <tr>
-                    <th>Levered Owner Cash Flow</th>
-                    <td>-111750.0</td>
-                    <td>-33683.048864</td>
-                    <td>-34129.694866</td>
-                    <td>-34594.419546</td>
-                    <td>-35078.103402</td>
-                    <td>166844.070742</td>
+                    <th>2</th>
+                    <td>-3300.00</td>
+                    <td>-50.00</td>
+                    <td>-3350.00</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-250.00</td>
+                    <td>87.50</td>
+                    <td>-250.00</td>
+                    <td>-416.67</td>
+                    <td>-104.17</td>
+                    <td>-933.33</td>
+                    <td>2416.67</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-354.94</td>
+                    <td>0.0</td>
+                    <td>-2331.27</td>
+                    <td>815.95</td>
+                    <td>-0.0</td>
+                    <td>-2803.60</td>
+                    <td>546.40</td>
+                    <td>-117356.48</td>
+                    <td>-110656.48</td>
                 </tr>
                 <tr>
-                    <th>Levered Net Cash Flow</th>
-                    <td>-111750.0</td>
-                    <td>6516.951136</td>
-                    <td>7276.305134</td>
-                    <td>8053.700454</td>
-                    <td>8849.456598</td>
-                    <td>212089.470742</td>
+                    <th>3</th>
+                    <td>-3300.00</td>
+                    <td>-50.00</td>
+                    <td>-3350.00</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-250.00</td>
+                    <td>87.50</td>
+                    <td>-250.00</td>
+                    <td>-416.67</td>
+                    <td>-104.17</td>
+                    <td>-933.33</td>
+                    <td>2416.67</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-357.01</td>
+                    <td>0.0</td>
+                    <td>-2329.20</td>
+                    <td>815.22</td>
+                    <td>-0.0</td>
+                    <td>-2804.33</td>
+                    <td>545.67</td>
+                    <td>-120160.81</td>
+                    <td>-110110.81</td>
                 </tr>
                 <tr>
-                    <th>Cum. Gross Equity</th>
-                    <td>-111750.0</td>
-                    <td>-145433.048864</td>
-                    <td>-179562.743731</td>
-                    <td>-214157.163277</td>
-                    <td>-249235.266679</td>
-                    <td>-82391.195937</td>
+                    <th>4</th>
+                    <td>-3300.00</td>
+                    <td>-50.00</td>
+                    <td>-3350.00</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-250.00</td>
+                    <td>87.50</td>
+                    <td>-250.00</td>
+                    <td>-416.67</td>
+                    <td>-104.17</td>
+                    <td>-933.33</td>
+                    <td>2416.67</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-359.09</td>
+                    <td>0.0</td>
+                    <td>-2327.12</td>
+                    <td>814.49</td>
+                    <td>-0.0</td>
+                    <td>-2805.05</td>
+                    <td>544.95</td>
+                    <td>-122965.86</td>
+                    <td>-109565.86</td>
                 </tr>
                 <tr>
-                    <th>Cum. Net Equity</th>
-                    <td>-111750.0</td>
-                    <td>-105233.048864</td>
-                    <td>-97956.743731</td>
-                    <td>-89903.043277</td>
-                    <td>-81053.586679</td>
-                    <td>131035.884063</td>
+                    <th>5</th>
+                    <td>-3300.00</td>
+                    <td>-50.00</td>
+                    <td>-3350.00</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-250.00</td>
+                    <td>87.50</td>
+                    <td>-250.00</td>
+                    <td>-416.67</td>
+                    <td>-104.17</td>
+                    <td>-933.33</td>
+                    <td>2416.67</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-361.19</td>
+                    <td>0.0</td>
+                    <td>-2325.03</td>
+                    <td>813.76</td>
+                    <td>-0.0</td>
+                    <td>-2805.79</td>
+                    <td>544.21</td>
+                    <td>-125771.65</td>
+                    <td>-109021.65</td>
+                </tr>
+                <tr>
+                    <th>6</th>
+                    <td>-3300.00</td>
+                    <td>-50.00</td>
+                    <td>-3350.00</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-250.00</td>
+                    <td>87.50</td>
+                    <td>-250.00</td>
+                    <td>-416.67</td>
+                    <td>-104.17</td>
+                    <td>-933.33</td>
+                    <td>2416.67</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-363.29</td>
+                    <td>0.0</td>
+                    <td>-2322.92</td>
+                    <td>813.02</td>
+                    <td>-0.0</td>
+                    <td>-2806.52</td>
+                    <td>543.48</td>
+                    <td>-128578.17</td>
+                    <td>-108478.17</td>
+                </tr>
+                <tr>
+                    <th>7</th>
+                    <td>-3300.00</td>
+                    <td>-50.00</td>
+                    <td>-3350.00</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-250.00</td>
+                    <td>87.50</td>
+                    <td>-250.00</td>
+                    <td>-416.67</td>
+                    <td>-104.17</td>
+                    <td>-933.33</td>
+                    <td>2416.67</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-365.41</td>
+                    <td>0.0</td>
+                    <td>-2320.80</td>
+                    <td>812.28</td>
+                    <td>-0.0</td>
+                    <td>-2807.27</td>
+                    <td>542.73</td>
+                    <td>-131385.44</td>
+                    <td>-107935.44</td>
+                </tr>
+                <tr>
+                    <th>8</th>
+                    <td>-3300.00</td>
+                    <td>-50.00</td>
+                    <td>-3350.00</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-250.00</td>
+                    <td>87.50</td>
+                    <td>-250.00</td>
+                    <td>-416.67</td>
+                    <td>-104.17</td>
+                    <td>-933.33</td>
+                    <td>2416.67</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-367.54</td>
+                    <td>0.0</td>
+                    <td>-2318.67</td>
+                    <td>811.53</td>
+                    <td>-0.0</td>
+                    <td>-2808.01</td>
+                    <td>541.99</td>
+                    <td>-134193.45</td>
+                    <td>-107393.45</td>
+                </tr>
+                <tr>
+                    <th>9</th>
+                    <td>-3300.00</td>
+                    <td>-50.00</td>
+                    <td>-3350.00</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-250.00</td>
+                    <td>87.50</td>
+                    <td>-250.00</td>
+                    <td>-416.67</td>
+                    <td>-104.17</td>
+                    <td>-933.33</td>
+                    <td>2416.67</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-369.69</td>
+                    <td>0.0</td>
+                    <td>-2316.53</td>
+                    <td>810.78</td>
+                    <td>-0.0</td>
+                    <td>-2808.76</td>
+                    <td>541.24</td>
+                    <td>-137002.21</td>
+                    <td>-106852.21</td>
+                </tr>
+                <tr>
+                    <th>10</th>
+                    <td>-3300.00</td>
+                    <td>-50.00</td>
+                    <td>-3350.00</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-250.00</td>
+                    <td>87.50</td>
+                    <td>-250.00</td>
+                    <td>-416.67</td>
+                    <td>-104.17</td>
+                    <td>-933.33</td>
+                    <td>2416.67</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-371.84</td>
+                    <td>0.0</td>
+                    <td>-2314.37</td>
+                    <td>810.03</td>
+                    <td>-0.0</td>
+                    <td>-2809.52</td>
+                    <td>540.48</td>
+                    <td>-139811.73</td>
+                    <td>-106311.73</td>
+                </tr>
+                <tr>
+                    <th>11</th>
+                    <td>-3300.00</td>
+                    <td>-50.00</td>
+                    <td>-3350.00</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-250.00</td>
+                    <td>87.50</td>
+                    <td>-250.00</td>
+                    <td>-416.67</td>
+                    <td>-104.17</td>
+                    <td>-933.33</td>
+                    <td>2416.67</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-374.01</td>
+                    <td>0.0</td>
+                    <td>-2312.20</td>
+                    <td>809.27</td>
+                    <td>-0.0</td>
+                    <td>-2810.28</td>
+                    <td>539.72</td>
+                    <td>-142622.01</td>
+                    <td>-105772.01</td>
+                </tr>
+                <tr>
+                    <th>12</th>
+                    <td>-3300.00</td>
+                    <td>-50.00</td>
+                    <td>-3350.00</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-250.00</td>
+                    <td>87.50</td>
+                    <td>-250.00</td>
+                    <td>-416.67</td>
+                    <td>-104.17</td>
+                    <td>-933.33</td>
+                    <td>2416.67</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-376.20</td>
+                    <td>0.0</td>
+                    <td>-2310.02</td>
+                    <td>808.51</td>
+                    <td>-0.0</td>
+                    <td>-2811.04</td>
+                    <td>538.96</td>
+                    <td>-145433.05</td>
+                    <td>-105233.05</td>
+                </tr>
+                <tr>
+                    <th rowspan="12" valign="top">2.0</th>
+                    <th>13</th>
+                    <td>-3399.00</td>
+                    <td>-51.50</td>
+                    <td>-3450.50</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-257.50</td>
+                    <td>90.12</td>
+                    <td>-257.50</td>
+                    <td>-429.17</td>
+                    <td>-107.29</td>
+                    <td>-961.33</td>
+                    <td>2489.17</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-378.39</td>
+                    <td>0.0</td>
+                    <td>-2307.82</td>
+                    <td>807.74</td>
+                    <td>-0.0</td>
+                    <td>-2839.81</td>
+                    <td>610.69</td>
+                    <td>-148272.86</td>
+                    <td>-104622.36</td>
+                </tr>
+                <tr>
+                    <th>14</th>
+                    <td>-3399.00</td>
+                    <td>-51.50</td>
+                    <td>-3450.50</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-257.50</td>
+                    <td>90.12</td>
+                    <td>-257.50</td>
+                    <td>-429.17</td>
+                    <td>-107.29</td>
+                    <td>-961.33</td>
+                    <td>2489.17</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-380.60</td>
+                    <td>0.0</td>
+                    <td>-2305.62</td>
+                    <td>806.97</td>
+                    <td>-0.0</td>
+                    <td>-2840.58</td>
+                    <td>609.92</td>
+                    <td>-151113.44</td>
+                    <td>-104012.44</td>
+                </tr>
+                <tr>
+                    <th>15</th>
+                    <td>-3399.00</td>
+                    <td>-51.50</td>
+                    <td>-3450.50</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-257.50</td>
+                    <td>90.12</td>
+                    <td>-257.50</td>
+                    <td>-429.17</td>
+                    <td>-107.29</td>
+                    <td>-961.33</td>
+                    <td>2489.17</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-382.82</td>
+                    <td>0.0</td>
+                    <td>-2303.40</td>
+                    <td>806.19</td>
+                    <td>-0.0</td>
+                    <td>-2841.36</td>
+                    <td>609.14</td>
+                    <td>-153954.80</td>
+                    <td>-103403.30</td>
+                </tr>
+                <tr>
+                    <th>16</th>
+                    <td>-3399.00</td>
+                    <td>-51.50</td>
+                    <td>-3450.50</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-257.50</td>
+                    <td>90.12</td>
+                    <td>-257.50</td>
+                    <td>-429.17</td>
+                    <td>-107.29</td>
+                    <td>-961.33</td>
+                    <td>2489.17</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-385.05</td>
+                    <td>0.0</td>
+                    <td>-2301.16</td>
+                    <td>805.41</td>
+                    <td>-0.0</td>
+                    <td>-2842.14</td>
+                    <td>608.36</td>
+                    <td>-156796.94</td>
+                    <td>-102794.94</td>
+                </tr>
+                <tr>
+                    <th>17</th>
+                    <td>-3399.00</td>
+                    <td>-51.50</td>
+                    <td>-3450.50</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-257.50</td>
+                    <td>90.12</td>
+                    <td>-257.50</td>
+                    <td>-429.17</td>
+                    <td>-107.29</td>
+                    <td>-961.33</td>
+                    <td>2489.17</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-387.30</td>
+                    <td>0.0</td>
+                    <td>-2298.92</td>
+                    <td>804.62</td>
+                    <td>-0.0</td>
+                    <td>-2842.93</td>
+                    <td>607.57</td>
+                    <td>-159639.86</td>
+                    <td>-102187.36</td>
+                </tr>
+                <tr>
+                    <th>18</th>
+                    <td>-3399.00</td>
+                    <td>-51.50</td>
+                    <td>-3450.50</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-257.50</td>
+                    <td>90.12</td>
+                    <td>-257.50</td>
+                    <td>-429.17</td>
+                    <td>-107.29</td>
+                    <td>-961.33</td>
+                    <td>2489.17</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-389.56</td>
+                    <td>0.0</td>
+                    <td>-2296.66</td>
+                    <td>803.83</td>
+                    <td>-0.0</td>
+                    <td>-2843.72</td>
+                    <td>606.78</td>
+                    <td>-162483.58</td>
+                    <td>-101580.58</td>
+                </tr>
+                <tr>
+                    <th>19</th>
+                    <td>-3399.00</td>
+                    <td>-51.50</td>
+                    <td>-3450.50</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-257.50</td>
+                    <td>90.12</td>
+                    <td>-257.50</td>
+                    <td>-429.17</td>
+                    <td>-107.29</td>
+                    <td>-961.33</td>
+                    <td>2489.17</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-391.83</td>
+                    <td>0.0</td>
+                    <td>-2294.39</td>
+                    <td>803.03</td>
+                    <td>-0.0</td>
+                    <td>-2844.51</td>
+                    <td>605.99</td>
+                    <td>-165328.09</td>
+                    <td>-100974.59</td>
+                </tr>
+                <tr>
+                    <th>20</th>
+                    <td>-3399.00</td>
+                    <td>-51.50</td>
+                    <td>-3450.50</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-257.50</td>
+                    <td>90.12</td>
+                    <td>-257.50</td>
+                    <td>-429.17</td>
+                    <td>-107.29</td>
+                    <td>-961.33</td>
+                    <td>2489.17</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-394.11</td>
+                    <td>0.0</td>
+                    <td>-2292.10</td>
+                    <td>802.23</td>
+                    <td>-0.0</td>
+                    <td>-2845.31</td>
+                    <td>605.19</td>
+                    <td>-168173.40</td>
+                    <td>-100369.40</td>
+                </tr>
+                <tr>
+                    <th>21</th>
+                    <td>-3399.00</td>
+                    <td>-51.50</td>
+                    <td>-3450.50</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-257.50</td>
+                    <td>90.12</td>
+                    <td>-257.50</td>
+                    <td>-429.17</td>
+                    <td>-107.29</td>
+                    <td>-961.33</td>
+                    <td>2489.17</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-396.41</td>
+                    <td>0.0</td>
+                    <td>-2289.80</td>
+                    <td>801.43</td>
+                    <td>-0.0</td>
+                    <td>-2846.12</td>
+                    <td>604.38</td>
+                    <td>-171019.52</td>
+                    <td>-99765.02</td>
+                </tr>
+                <tr>
+                    <th>22</th>
+                    <td>-3399.00</td>
+                    <td>-51.50</td>
+                    <td>-3450.50</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-257.50</td>
+                    <td>90.12</td>
+                    <td>-257.50</td>
+                    <td>-429.17</td>
+                    <td>-107.29</td>
+                    <td>-961.33</td>
+                    <td>2489.17</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-398.73</td>
+                    <td>0.0</td>
+                    <td>-2287.49</td>
+                    <td>800.62</td>
+                    <td>-0.0</td>
+                    <td>-2846.93</td>
+                    <td>603.57</td>
+                    <td>-173866.45</td>
+                    <td>-99161.45</td>
+                </tr>
+                <tr>
+                    <th>23</th>
+                    <td>-3399.00</td>
+                    <td>-51.50</td>
+                    <td>-3450.50</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-257.50</td>
+                    <td>90.12</td>
+                    <td>-257.50</td>
+                    <td>-429.17</td>
+                    <td>-107.29</td>
+                    <td>-961.33</td>
+                    <td>2489.17</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-401.05</td>
+                    <td>0.0</td>
+                    <td>-2285.16</td>
+                    <td>799.81</td>
+                    <td>-0.0</td>
+                    <td>-2847.74</td>
+                    <td>602.76</td>
+                    <td>-176714.18</td>
+                    <td>-98558.68</td>
+                </tr>
+                <tr>
+                    <th>24</th>
+                    <td>-3399.00</td>
+                    <td>-51.50</td>
+                    <td>-3450.50</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-257.50</td>
+                    <td>90.12</td>
+                    <td>-257.50</td>
+                    <td>-429.17</td>
+                    <td>-107.29</td>
+                    <td>-961.33</td>
+                    <td>2489.17</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-403.39</td>
+                    <td>0.0</td>
+                    <td>-2282.82</td>
+                    <td>798.99</td>
+                    <td>-0.0</td>
+                    <td>-2848.56</td>
+                    <td>601.94</td>
+                    <td>-179562.74</td>
+                    <td>-97956.74</td>
+                </tr>
+                <tr>
+                    <th rowspan="12" valign="top">3.0</th>
+                    <th>25</th>
+                    <td>-3500.97</td>
+                    <td>-53.04</td>
+                    <td>-3554.01</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-265.22</td>
+                    <td>92.83</td>
+                    <td>-265.22</td>
+                    <td>-442.04</td>
+                    <td>-110.51</td>
+                    <td>-990.17</td>
+                    <td>2563.84</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-405.74</td>
+                    <td>0.0</td>
+                    <td>-2280.47</td>
+                    <td>798.16</td>
+                    <td>-0.0</td>
+                    <td>-2878.22</td>
+                    <td>675.79</td>
+                    <td>-182440.97</td>
+                    <td>-97280.96</td>
+                </tr>
+                <tr>
+                    <th>26</th>
+                    <td>-3500.97</td>
+                    <td>-53.04</td>
+                    <td>-3554.01</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-265.22</td>
+                    <td>92.83</td>
+                    <td>-265.22</td>
+                    <td>-442.04</td>
+                    <td>-110.51</td>
+                    <td>-990.17</td>
+                    <td>2563.84</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-408.11</td>
+                    <td>0.0</td>
+                    <td>-2278.10</td>
+                    <td>797.34</td>
+                    <td>-0.0</td>
+                    <td>-2879.05</td>
+                    <td>674.96</td>
+                    <td>-185320.02</td>
+                    <td>-96606.00</td>
+                </tr>
+                <tr>
+                    <th>27</th>
+                    <td>-3500.97</td>
+                    <td>-53.04</td>
+                    <td>-3554.01</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-265.22</td>
+                    <td>92.83</td>
+                    <td>-265.22</td>
+                    <td>-442.04</td>
+                    <td>-110.51</td>
+                    <td>-990.17</td>
+                    <td>2563.84</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-410.49</td>
+                    <td>0.0</td>
+                    <td>-2275.72</td>
+                    <td>796.50</td>
+                    <td>-0.0</td>
+                    <td>-2879.88</td>
+                    <td>674.13</td>
+                    <td>-188199.90</td>
+                    <td>-95931.87</td>
+                </tr>
+                <tr>
+                    <th>28</th>
+                    <td>-3500.97</td>
+                    <td>-53.04</td>
+                    <td>-3554.01</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-265.22</td>
+                    <td>92.83</td>
+                    <td>-265.22</td>
+                    <td>-442.04</td>
+                    <td>-110.51</td>
+                    <td>-990.17</td>
+                    <td>2563.84</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-412.89</td>
+                    <td>0.0</td>
+                    <td>-2273.33</td>
+                    <td>795.66</td>
+                    <td>-0.0</td>
+                    <td>-2880.72</td>
+                    <td>673.29</td>
+                    <td>-191080.62</td>
+                    <td>-95258.58</td>
+                </tr>
+                <tr>
+                    <th>29</th>
+                    <td>-3500.97</td>
+                    <td>-53.04</td>
+                    <td>-3554.01</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-265.22</td>
+                    <td>92.83</td>
+                    <td>-265.22</td>
+                    <td>-442.04</td>
+                    <td>-110.51</td>
+                    <td>-990.17</td>
+                    <td>2563.84</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-415.29</td>
+                    <td>0.0</td>
+                    <td>-2270.92</td>
+                    <td>794.82</td>
+                    <td>-0.0</td>
+                    <td>-2881.57</td>
+                    <td>672.44</td>
+                    <td>-193962.19</td>
+                    <td>-94586.14</td>
+                </tr>
+                <tr>
+                    <th>30</th>
+                    <td>-3500.97</td>
+                    <td>-53.04</td>
+                    <td>-3554.01</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-265.22</td>
+                    <td>92.83</td>
+                    <td>-265.22</td>
+                    <td>-442.04</td>
+                    <td>-110.51</td>
+                    <td>-990.17</td>
+                    <td>2563.84</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-417.72</td>
+                    <td>0.0</td>
+                    <td>-2268.50</td>
+                    <td>793.97</td>
+                    <td>-0.0</td>
+                    <td>-2882.41</td>
+                    <td>671.60</td>
+                    <td>-196844.60</td>
+                    <td>-93914.54</td>
+                </tr>
+                <tr>
+                    <th>31</th>
+                    <td>-3500.97</td>
+                    <td>-53.04</td>
+                    <td>-3554.01</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-265.22</td>
+                    <td>92.83</td>
+                    <td>-265.22</td>
+                    <td>-442.04</td>
+                    <td>-110.51</td>
+                    <td>-990.17</td>
+                    <td>2563.84</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-420.15</td>
+                    <td>0.0</td>
+                    <td>-2266.06</td>
+                    <td>793.12</td>
+                    <td>-0.0</td>
+                    <td>-2883.27</td>
+                    <td>670.74</td>
+                    <td>-199727.87</td>
+                    <td>-93243.80</td>
+                </tr>
+                <tr>
+                    <th>32</th>
+                    <td>-3500.97</td>
+                    <td>-53.04</td>
+                    <td>-3554.01</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-265.22</td>
+                    <td>92.83</td>
+                    <td>-265.22</td>
+                    <td>-442.04</td>
+                    <td>-110.51</td>
+                    <td>-990.17</td>
+                    <td>2563.84</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-422.60</td>
+                    <td>0.0</td>
+                    <td>-2263.61</td>
+                    <td>792.26</td>
+                    <td>-0.0</td>
+                    <td>-2884.12</td>
+                    <td>669.89</td>
+                    <td>-202611.99</td>
+                    <td>-92573.91</td>
+                </tr>
+                <tr>
+                    <th>33</th>
+                    <td>-3500.97</td>
+                    <td>-53.04</td>
+                    <td>-3554.01</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-265.22</td>
+                    <td>92.83</td>
+                    <td>-265.22</td>
+                    <td>-442.04</td>
+                    <td>-110.51</td>
+                    <td>-990.17</td>
+                    <td>2563.84</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-425.07</td>
+                    <td>0.0</td>
+                    <td>-2261.14</td>
+                    <td>791.40</td>
+                    <td>-0.0</td>
+                    <td>-2884.99</td>
+                    <td>669.02</td>
+                    <td>-205496.98</td>
+                    <td>-91904.89</td>
+                </tr>
+                <tr>
+                    <th>34</th>
+                    <td>-3500.97</td>
+                    <td>-53.04</td>
+                    <td>-3554.01</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-265.22</td>
+                    <td>92.83</td>
+                    <td>-265.22</td>
+                    <td>-442.04</td>
+                    <td>-110.51</td>
+                    <td>-990.17</td>
+                    <td>2563.84</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-427.55</td>
+                    <td>0.0</td>
+                    <td>-2258.66</td>
+                    <td>790.53</td>
+                    <td>-0.0</td>
+                    <td>-2885.85</td>
+                    <td>668.16</td>
+                    <td>-208382.83</td>
+                    <td>-91236.73</td>
+                </tr>
+                <tr>
+                    <th>35</th>
+                    <td>-3500.97</td>
+                    <td>-53.04</td>
+                    <td>-3554.01</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-265.22</td>
+                    <td>92.83</td>
+                    <td>-265.22</td>
+                    <td>-442.04</td>
+                    <td>-110.51</td>
+                    <td>-990.17</td>
+                    <td>2563.84</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-430.04</td>
+                    <td>0.0</td>
+                    <td>-2256.17</td>
+                    <td>789.66</td>
+                    <td>-0.0</td>
+                    <td>-2886.73</td>
+                    <td>667.28</td>
+                    <td>-211269.56</td>
+                    <td>-90569.45</td>
+                </tr>
+                <tr>
+                    <th>36</th>
+                    <td>-3500.97</td>
+                    <td>-53.04</td>
+                    <td>-3554.01</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-265.22</td>
+                    <td>92.83</td>
+                    <td>-265.22</td>
+                    <td>-442.04</td>
+                    <td>-110.51</td>
+                    <td>-990.17</td>
+                    <td>2563.84</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-432.55</td>
+                    <td>0.0</td>
+                    <td>-2253.66</td>
+                    <td>788.78</td>
+                    <td>-0.0</td>
+                    <td>-2887.61</td>
+                    <td>666.40</td>
+                    <td>-214157.16</td>
+                    <td>-89903.04</td>
+                </tr>
+                <tr>
+                    <th rowspan="12" valign="top">4.0</th>
+                    <th>37</th>
+                    <td>-3606.00</td>
+                    <td>-54.63</td>
+                    <td>-3660.63</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-273.18</td>
+                    <td>95.61</td>
+                    <td>-273.18</td>
+                    <td>-455.30</td>
+                    <td>-113.83</td>
+                    <td>-1019.88</td>
+                    <td>2640.75</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-435.07</td>
+                    <td>0.0</td>
+                    <td>-2251.14</td>
+                    <td>787.90</td>
+                    <td>-0.0</td>
+                    <td>-2918.19</td>
+                    <td>742.44</td>
+                    <td>-217075.36</td>
+                    <td>-89160.61</td>
+                </tr>
+                <tr>
+                    <th>38</th>
+                    <td>-3606.00</td>
+                    <td>-54.63</td>
+                    <td>-3660.63</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-273.18</td>
+                    <td>95.61</td>
+                    <td>-273.18</td>
+                    <td>-455.30</td>
+                    <td>-113.83</td>
+                    <td>-1019.88</td>
+                    <td>2640.75</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-437.61</td>
+                    <td>0.0</td>
+                    <td>-2248.60</td>
+                    <td>787.01</td>
+                    <td>-0.0</td>
+                    <td>-2919.08</td>
+                    <td>741.55</td>
+                    <td>-219994.44</td>
+                    <td>-88419.06</td>
+                </tr>
+                <tr>
+                    <th>39</th>
+                    <td>-3606.00</td>
+                    <td>-54.63</td>
+                    <td>-3660.63</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-273.18</td>
+                    <td>95.61</td>
+                    <td>-273.18</td>
+                    <td>-455.30</td>
+                    <td>-113.83</td>
+                    <td>-1019.88</td>
+                    <td>2640.75</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-440.17</td>
+                    <td>0.0</td>
+                    <td>-2246.05</td>
+                    <td>786.12</td>
+                    <td>-0.0</td>
+                    <td>-2919.98</td>
+                    <td>740.65</td>
+                    <td>-222914.41</td>
+                    <td>-87678.40</td>
+                </tr>
+                <tr>
+                    <th>40</th>
+                    <td>-3606.00</td>
+                    <td>-54.63</td>
+                    <td>-3660.63</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-273.18</td>
+                    <td>95.61</td>
+                    <td>-273.18</td>
+                    <td>-455.30</td>
+                    <td>-113.83</td>
+                    <td>-1019.88</td>
+                    <td>2640.75</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-442.73</td>
+                    <td>0.0</td>
+                    <td>-2243.48</td>
+                    <td>785.22</td>
+                    <td>-0.0</td>
+                    <td>-2920.87</td>
+                    <td>739.76</td>
+                    <td>-225835.29</td>
+                    <td>-86938.65</td>
+                </tr>
+                <tr>
+                    <th>41</th>
+                    <td>-3606.00</td>
+                    <td>-54.63</td>
+                    <td>-3660.63</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-273.18</td>
+                    <td>95.61</td>
+                    <td>-273.18</td>
+                    <td>-455.30</td>
+                    <td>-113.83</td>
+                    <td>-1019.88</td>
+                    <td>2640.75</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-445.32</td>
+                    <td>0.0</td>
+                    <td>-2240.90</td>
+                    <td>784.31</td>
+                    <td>-0.0</td>
+                    <td>-2921.78</td>
+                    <td>738.85</td>
+                    <td>-228757.07</td>
+                    <td>-86199.80</td>
+                </tr>
+                <tr>
+                    <th>42</th>
+                    <td>-3606.00</td>
+                    <td>-54.63</td>
+                    <td>-3660.63</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-273.18</td>
+                    <td>95.61</td>
+                    <td>-273.18</td>
+                    <td>-455.30</td>
+                    <td>-113.83</td>
+                    <td>-1019.88</td>
+                    <td>2640.75</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-447.91</td>
+                    <td>0.0</td>
+                    <td>-2238.30</td>
+                    <td>783.40</td>
+                    <td>-0.0</td>
+                    <td>-2922.69</td>
+                    <td>737.94</td>
+                    <td>-231679.75</td>
+                    <td>-85461.85</td>
+                </tr>
+                <tr>
+                    <th>43</th>
+                    <td>-3606.00</td>
+                    <td>-54.63</td>
+                    <td>-3660.63</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-273.18</td>
+                    <td>95.61</td>
+                    <td>-273.18</td>
+                    <td>-455.30</td>
+                    <td>-113.83</td>
+                    <td>-1019.88</td>
+                    <td>2640.75</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-450.53</td>
+                    <td>0.0</td>
+                    <td>-2235.69</td>
+                    <td>782.49</td>
+                    <td>-0.0</td>
+                    <td>-2923.60</td>
+                    <td>737.03</td>
+                    <td>-234603.35</td>
+                    <td>-84724.82</td>
+                </tr>
+                <tr>
+                    <th>44</th>
+                    <td>-3606.00</td>
+                    <td>-54.63</td>
+                    <td>-3660.63</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-273.18</td>
+                    <td>95.61</td>
+                    <td>-273.18</td>
+                    <td>-455.30</td>
+                    <td>-113.83</td>
+                    <td>-1019.88</td>
+                    <td>2640.75</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-453.15</td>
+                    <td>0.0</td>
+                    <td>-2233.06</td>
+                    <td>781.57</td>
+                    <td>-0.0</td>
+                    <td>-2924.52</td>
+                    <td>736.11</td>
+                    <td>-237527.88</td>
+                    <td>-83988.72</td>
+                </tr>
+                <tr>
+                    <th>45</th>
+                    <td>-3606.00</td>
+                    <td>-54.63</td>
+                    <td>-3660.63</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-273.18</td>
+                    <td>95.61</td>
+                    <td>-273.18</td>
+                    <td>-455.30</td>
+                    <td>-113.83</td>
+                    <td>-1019.88</td>
+                    <td>2640.75</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-455.80</td>
+                    <td>0.0</td>
+                    <td>-2230.42</td>
+                    <td>780.65</td>
+                    <td>-0.0</td>
+                    <td>-2925.45</td>
+                    <td>735.18</td>
+                    <td>-240453.32</td>
+                    <td>-83253.53</td>
+                </tr>
+                <tr>
+                    <th>46</th>
+                    <td>-3606.00</td>
+                    <td>-54.63</td>
+                    <td>-3660.63</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-273.18</td>
+                    <td>95.61</td>
+                    <td>-273.18</td>
+                    <td>-455.30</td>
+                    <td>-113.83</td>
+                    <td>-1019.88</td>
+                    <td>2640.75</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-458.46</td>
+                    <td>0.0</td>
+                    <td>-2227.76</td>
+                    <td>779.71</td>
+                    <td>-0.0</td>
+                    <td>-2926.38</td>
+                    <td>734.25</td>
+                    <td>-243379.70</td>
+                    <td>-82519.28</td>
+                </tr>
+                <tr>
+                    <th>47</th>
+                    <td>-3606.00</td>
+                    <td>-54.63</td>
+                    <td>-3660.63</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-273.18</td>
+                    <td>95.61</td>
+                    <td>-273.18</td>
+                    <td>-455.30</td>
+                    <td>-113.83</td>
+                    <td>-1019.88</td>
+                    <td>2640.75</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-461.13</td>
+                    <td>0.0</td>
+                    <td>-2225.08</td>
+                    <td>778.78</td>
+                    <td>-0.0</td>
+                    <td>-2927.31</td>
+                    <td>733.32</td>
+                    <td>-246307.01</td>
+                    <td>-81785.96</td>
+                </tr>
+                <tr>
+                    <th>48</th>
+                    <td>-3606.00</td>
+                    <td>-54.63</td>
+                    <td>-3660.63</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-273.18</td>
+                    <td>95.61</td>
+                    <td>-273.18</td>
+                    <td>-455.30</td>
+                    <td>-113.83</td>
+                    <td>-1019.88</td>
+                    <td>2640.75</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-463.82</td>
+                    <td>0.0</td>
+                    <td>-2222.39</td>
+                    <td>777.84</td>
+                    <td>-0.0</td>
+                    <td>-2928.25</td>
+                    <td>732.38</td>
+                    <td>-249235.27</td>
+                    <td>-81053.59</td>
+                </tr>
+                <tr>
+                    <th rowspan="12" valign="top">5.0</th>
+                    <th>49</th>
+                    <td>-3714.18</td>
+                    <td>-56.27</td>
+                    <td>-3770.45</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-281.38</td>
+                    <td>98.48</td>
+                    <td>-281.38</td>
+                    <td>-468.96</td>
+                    <td>-117.24</td>
+                    <td>-1050.47</td>
+                    <td>2719.98</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-466.53</td>
+                    <td>0.0</td>
+                    <td>-2219.69</td>
+                    <td>776.89</td>
+                    <td>-0.0</td>
+                    <td>-2959.80</td>
+                    <td>810.65</td>
+                    <td>-252195.06</td>
+                    <td>-80242.93</td>
+                </tr>
+                <tr>
+                    <th>50</th>
+                    <td>-3714.18</td>
+                    <td>-56.27</td>
+                    <td>-3770.45</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-281.38</td>
+                    <td>98.48</td>
+                    <td>-281.38</td>
+                    <td>-468.96</td>
+                    <td>-117.24</td>
+                    <td>-1050.47</td>
+                    <td>2719.98</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-469.25</td>
+                    <td>0.0</td>
+                    <td>-2216.97</td>
+                    <td>775.94</td>
+                    <td>-0.0</td>
+                    <td>-2960.75</td>
+                    <td>809.70</td>
+                    <td>-255155.82</td>
+                    <td>-79433.24</td>
+                </tr>
+                <tr>
+                    <th>51</th>
+                    <td>-3714.18</td>
+                    <td>-56.27</td>
+                    <td>-3770.45</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-281.38</td>
+                    <td>98.48</td>
+                    <td>-281.38</td>
+                    <td>-468.96</td>
+                    <td>-117.24</td>
+                    <td>-1050.47</td>
+                    <td>2719.98</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-471.99</td>
+                    <td>0.0</td>
+                    <td>-2214.23</td>
+                    <td>774.98</td>
+                    <td>-0.0</td>
+                    <td>-2961.71</td>
+                    <td>808.74</td>
+                    <td>-258117.52</td>
+                    <td>-78624.49</td>
+                </tr>
+                <tr>
+                    <th>52</th>
+                    <td>-3714.18</td>
+                    <td>-56.27</td>
+                    <td>-3770.45</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-281.38</td>
+                    <td>98.48</td>
+                    <td>-281.38</td>
+                    <td>-468.96</td>
+                    <td>-117.24</td>
+                    <td>-1050.47</td>
+                    <td>2719.98</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-474.74</td>
+                    <td>0.0</td>
+                    <td>-2211.47</td>
+                    <td>774.02</td>
+                    <td>-0.0</td>
+                    <td>-2962.67</td>
+                    <td>807.78</td>
+                    <td>-261080.20</td>
+                    <td>-77816.72</td>
+                </tr>
+                <tr>
+                    <th>53</th>
+                    <td>-3714.18</td>
+                    <td>-56.27</td>
+                    <td>-3770.45</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-281.38</td>
+                    <td>98.48</td>
+                    <td>-281.38</td>
+                    <td>-468.96</td>
+                    <td>-117.24</td>
+                    <td>-1050.47</td>
+                    <td>2719.98</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-477.51</td>
+                    <td>0.0</td>
+                    <td>-2208.71</td>
+                    <td>773.05</td>
+                    <td>-0.0</td>
+                    <td>-2963.64</td>
+                    <td>806.81</td>
+                    <td>-264043.84</td>
+                    <td>-77009.91</td>
+                </tr>
+                <tr>
+                    <th>54</th>
+                    <td>-3714.18</td>
+                    <td>-56.27</td>
+                    <td>-3770.45</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-281.38</td>
+                    <td>98.48</td>
+                    <td>-281.38</td>
+                    <td>-468.96</td>
+                    <td>-117.24</td>
+                    <td>-1050.47</td>
+                    <td>2719.98</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-480.29</td>
+                    <td>0.0</td>
+                    <td>-2205.92</td>
+                    <td>772.07</td>
+                    <td>-0.0</td>
+                    <td>-2964.62</td>
+                    <td>805.83</td>
+                    <td>-267008.45</td>
+                    <td>-76204.07</td>
+                </tr>
+                <tr>
+                    <th>55</th>
+                    <td>-3714.18</td>
+                    <td>-56.27</td>
+                    <td>-3770.45</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-281.38</td>
+                    <td>98.48</td>
+                    <td>-281.38</td>
+                    <td>-468.96</td>
+                    <td>-117.24</td>
+                    <td>-1050.47</td>
+                    <td>2719.98</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-483.09</td>
+                    <td>0.0</td>
+                    <td>-2203.12</td>
+                    <td>771.09</td>
+                    <td>-0.0</td>
+                    <td>-2965.60</td>
+                    <td>804.85</td>
+                    <td>-269974.05</td>
+                    <td>-75399.22</td>
+                </tr>
+                <tr>
+                    <th>56</th>
+                    <td>-3714.18</td>
+                    <td>-56.27</td>
+                    <td>-3770.45</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-281.38</td>
+                    <td>98.48</td>
+                    <td>-281.38</td>
+                    <td>-468.96</td>
+                    <td>-117.24</td>
+                    <td>-1050.47</td>
+                    <td>2719.98</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-485.91</td>
+                    <td>0.0</td>
+                    <td>-2200.30</td>
+                    <td>770.11</td>
+                    <td>-0.0</td>
+                    <td>-2966.58</td>
+                    <td>803.87</td>
+                    <td>-272940.63</td>
+                    <td>-74595.35</td>
+                </tr>
+                <tr>
+                    <th>57</th>
+                    <td>-3714.18</td>
+                    <td>-56.27</td>
+                    <td>-3770.45</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-281.38</td>
+                    <td>98.48</td>
+                    <td>-281.38</td>
+                    <td>-468.96</td>
+                    <td>-117.24</td>
+                    <td>-1050.47</td>
+                    <td>2719.98</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-488.75</td>
+                    <td>0.0</td>
+                    <td>-2197.47</td>
+                    <td>769.11</td>
+                    <td>-0.0</td>
+                    <td>-2967.58</td>
+                    <td>802.87</td>
+                    <td>-275908.21</td>
+                    <td>-73792.48</td>
+                </tr>
+                <tr>
+                    <th>58</th>
+                    <td>-3714.18</td>
+                    <td>-56.27</td>
+                    <td>-3770.45</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-281.38</td>
+                    <td>98.48</td>
+                    <td>-281.38</td>
+                    <td>-468.96</td>
+                    <td>-117.24</td>
+                    <td>-1050.47</td>
+                    <td>2719.98</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-491.60</td>
+                    <td>0.0</td>
+                    <td>-2194.61</td>
+                    <td>768.12</td>
+                    <td>-0.0</td>
+                    <td>-2968.57</td>
+                    <td>801.88</td>
+                    <td>-278876.78</td>
+                    <td>-72990.60</td>
+                </tr>
+                <tr>
+                    <th>59</th>
+                    <td>-3714.18</td>
+                    <td>-56.27</td>
+                    <td>-3770.45</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>0.0</td>
+                    <td>-281.38</td>
+                    <td>98.48</td>
+                    <td>-281.38</td>
+                    <td>-468.96</td>
+                    <td>-117.24</td>
+                    <td>-1050.47</td>
+                    <td>2719.98</td>
+                    <td>0.0</td>
+                    <td>0.00</td>
+                    <td>-494.47</td>
+                    <td>0.0</td>
+                    <td>-2191.75</td>
+                    <td>767.11</td>
+                    <td>-0.0</td>
+                    <td>-2969.58</td>
+                    <td>800.87</td>
+                    <td>-281846.36</td>
+                    <td>-72189.73</td>
+                </tr>
+                <tr>
+                    <th>60</th>
+                    <td>-3714.18</td>
+                    <td>-56.27</td>
+                    <td>-3770.45</td>
+                    <td>0.0</td>
+                    <td>0.0</td>
+                    <td>579637.04</td>
+                    <td>-2475.0</td>
+                    <td>-281.38</td>
+                    <td>98.48</td>
+                    <td>-281.38</td>
+                    <td>-468.96</td>
+                    <td>-117.24</td>
+                    <td>576111.56</td>
+                    <td>579882.01</td>
+                    <td>0.0</td>
+                    <td>-374736.29</td>
+                    <td>-497.35</td>
+                    <td>0.0</td>
+                    <td>-2188.86</td>
+                    <td>766.10</td>
+                    <td>-0.0</td>
+                    <td>199455.16</td>
+                    <td>203225.61</td>
+                    <td>-82391.20</td>
+                    <td>131035.88</td>
                 </tr>
                 </tbody>
             </table>
         `]
-    )
-    
-    /* Be sure to revisit this, I would imagine this can be condensed like formData... */
-    const [mcfInterest, setMCFInterest] = useState(27861)
-    const [mcfMortInsPay, setMCFMortInsPay] = useState(0)
-    const [amortization, setAmortization] = useState(4373)
-
-    const [initEquityNOR, setInitEquityNOR] = useState(111750)
-    const [initEquityGROSS, setInitEquityGROSS] = useState(111750)
-    const [maxEquityNOR, setMaxEquityNOR] = useState(111750)
-    const [maxEquityGROSS, setMaxEquityGROSS] = useState(281846)
-    const [profitNOR, setProfitNOR] = useState(101631)
-    const [profitGROSS, setProfitGROSS] = useState(-111796)
-    const [unlvIRRNOR, setUNLVIRRNOR] = useState(7.6)
-    const [unlvIRRGROSS, setUNLVIRRGROSS] = useState(-0.7)
-    const [lvIRRNOR, setLVIRRNOR] = useState(15.5)
-    const [lvIRRGROSS, setLVIRRGROSS] = useState(-14.4)
-    const [lvEMNOR, setLVEMNOR] = useState(1.91)
-    const [lvEMGROSS, setLVEMGROSS] = useState(0.60)
+    );
 
     return (
         <div>
@@ -2818,129 +4460,17 @@ const InputManager = (props) => {
                     {/*<Button onClick={getData} type="submit" variant="contained" id="submitButton" endIcon={<CalculateIcon />}>Update</Button>*/}
                 </div>
             </form>
-            <div className="returns_table">
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Returns</TableCell>
-                                <TableCell align="right">Net of Rent</TableCell>
-                                <TableCell align="right">Gross</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Initial Equity</TableCell>
-                                <TableCell align="right">${initEquityNOR.toFixed(0)}</TableCell>
-                                <TableCell align="right">${initEquityGROSS.toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Max Equity</TableCell>
-                                <TableCell align="right">${maxEquityNOR.toFixed(0)}</TableCell>
-                                <TableCell align="right">${maxEquityGROSS.toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Profit</TableCell>
-                                <TableCell align="right">${profitNOR.toFixed(0)}</TableCell>
-                                <TableCell align="right">${profitGROSS.toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Unlevered Rate of Return</TableCell>
-                                <TableCell align="right">{unlvIRRNOR.toFixed(1)}%</TableCell>
-                                <TableCell align="right">{unlvIRRGROSS.toFixed(1)}%</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Levered Rate of Return</TableCell>
-                                <TableCell align="right">{lvIRRNOR.toFixed(1)}%</TableCell>
-                                <TableCell align="right">{lvIRRGROSS.toFixed(1)}%</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Effective Margin</TableCell>
-                                <TableCell align="right">{lvEMNOR.toFixed(2)}x</TableCell>
-                                <TableCell align="right">{lvEMGROSS.toFixed(2)}x</TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
-            <div className="returns_table">
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Owner Payments Summary</TableCell>
-                                <TableCell align="right">Month</TableCell>
-                                <TableCell align="right">Annual</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Interest</TableCell>
-                                <TableCell align="right">${(mcfInterest/12).toFixed(0)}</TableCell>
-                                <TableCell align="right">${mcfInterest.toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Property Tax</TableCell>
-                                <TableCell align="right">${(propertyTax/12).toFixed(0)}</TableCell>
-                                <TableCell align="right">${propertyTax.toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Insurance</TableCell>
-                                <TableCell align="right">${(homeInsurance/12).toFixed(0)}</TableCell>
-                                <TableCell align="right">${homeInsurance.toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Maintenance</TableCell>
-                                <TableCell align="right">${(homeMaintenance/12).toFixed(0)}</TableCell>
-                                <TableCell align="right">${homeMaintenance.toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">HOA/Utilities</TableCell>
-                                <TableCell align="right">${hoaUtility.toFixed(0)}</TableCell>
-                                <TableCell align="right">${(hoaUtility*12).toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Mortgage Insurance</TableCell>
-                                <TableCell align="right">${mcfMortInsPay.toFixed(0)}</TableCell>
-                                <TableCell align="right">${(mcfMortInsPay*12).toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow id="subtotal_row">
-                                <TableCell component="th" scope="row">Subtotal</TableCell>
-                                <TableCell align="right">${((mcfInterest + propertyTax + homeInsurance + homeMaintenance)/12 + hoaUtility + mcfMortInsPay).toFixed(0)}</TableCell>
-                                <TableCell align="right">${(mcfInterest + propertyTax + homeInsurance + homeMaintenance + ((hoaUtility + mcfMortInsPay)*12)).toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Amortization</TableCell>
-                                <TableCell align="right">${(amortization/12).toFixed(0)}</TableCell>
-                                <TableCell align="right">${amortization.toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Total</TableCell>
-                                <TableCell align="right">${(((mcfInterest + propertyTax + homeInsurance + homeMaintenance)/12 + hoaUtility + mcfMortInsPay) + (amortization/12)).toFixed(0)}</TableCell>
-                                <TableCell align="right">${((mcfInterest + propertyTax + homeInsurance + homeMaintenance + ((hoaUtility + mcfMortInsPay)*12)) + amortization).toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Minimum</TableCell>
-                                <TableCell align="right">${((mcfInterest + propertyTax + homeInsurance + amortization)/12 + mcfMortInsPay).toFixed(0)}</TableCell>
-                                <TableCell align="right">${(mcfInterest + propertyTax + homeInsurance + amortization + (mcfMortInsPay*12)).toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Apartment Rent</TableCell>
-                                <TableCell align="right">${(totalRent + (rentersInsurance/12)).toFixed(0)}</TableCell>
-                                <TableCell align="right">${((totalRent*12) + rentersInsurance).toFixed(0)}</TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
-
-            <div id="ACF_Table_Div">
-                <p>Annual Cash Flow:</p>
-                <div className="ACF_Table" dangerouslySetInnerHTML={{__html: acfTable}}/>
-            </div>
             <div id="MCF_Table_Div">
-                <p>Monthly Cash Flow:</p>
+                <div className="MCF_Table" dangerouslySetInnerHTML={{__html: mcfrTable}}/>
+                {/*<p>Monthly Rent Cash Flow:</p>
                 <div className="MCF_Table" dangerouslySetInnerHTML={{__html: mcfTable}}/>
+                <br></br>
+                <p>Monthly Unlevered Owner Cash Flow:</p>
+                <div className="MCF_Table" dangerouslySetInnerHTML={{__html: mcfuTable}}/>
+                <br></br>
+                <p>Monthly Levered Owner Cash Flow:</p>
+                <div className="MCF_Table" dangerouslySetInnerHTML={{__html: mcflTable}}/>
+                {/*<Table mcfTable={mcfTable} mcfuTable={mcfuTable} mcflTable={mcflTable} />*/}
             </div>
         </div>
     )

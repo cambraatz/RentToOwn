@@ -65,3 +65,40 @@
 #submitButton {
   margin: 1% 0% 1% 0%;
 }
+
+#MCF_Table_Div {
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.returns_table {
+  padding: 0% 5% 1% 5%;
+}
+
+#subtotal_row {
+  border-top: 1px solid black;
+}
+
+#dataframe {
+  column-width: 10%;
+}
+
+thead {
+  background-color: #a1c0da;
+  color: black;
+  font-size: medium;
+}
+
+th, td {
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  font-size: small;
+}
+
+td {
+  font-size: small;
+}
+
+

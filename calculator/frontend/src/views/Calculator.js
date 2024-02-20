@@ -1,6 +1,8 @@
 import React from 'react';
 import NavBar from '../components/Navbar';
 import InputManager from '../components/InputManager';
+import '../../static/css/App.css';
+import '../../static/css/index.css';
 import Table from "../components/Table";
 import Drawer from '../components/Drawer';
 import { useCookies } from "react-cookie";
@@ -10,7 +12,6 @@ const Calculator = (props) => {
         <div id='calculator_view'>
             <NavBar />
             <InputManager user_id={props.user_id} />
-            <Table />
         </div>
     )
 }
@@ -18,3 +19,4 @@ const Calculator = (props) => {
 export default Calculator;
 
 // <Drawer />
+// <Table />

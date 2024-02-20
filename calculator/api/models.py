@@ -91,56 +91,21 @@ class DataField(models.Model):
     rate_mortgage_points = models.FloatField(max_length=4)
     mortgage_points = models.FloatField(max_length=6)
 
-    mcf_table = models.TextField(default="")
-    total_rcf = models.FloatField(max_length=10, default=0)
-    mcfu_table = models.TextField(default="")
-    gross_sale_30y = models.FloatField(max_length=10, default=0)
-    total_uocf = models.FloatField(max_length=10, default=0)
-    mcfl_table = models.TextField(default="")
-    total_locf = models.FloatField(max_length=10, default=0)
+    MCF = models.TextField(default="")
+    ACF = models.TextField(default="")
+    total_interest = models.FloatField(max_length=8, default=27861)
+    mortgage_insurance_payment = models.FloatField(max_length=8, default=40111)
+    amortization = models.FloatField(max_length=6, default=4373)
 
-    '''
-
-    # Start of derived properties for table rendering...
-    @property
-    def mcf_months(self):
-        return list(range(self.hold_period_m+1))
-    
-    @property
-    def mcf_years(self):
-        years = np.zeros(self.hold_period_m+1)
-        for i in range(len(self.mcf_months)):
-            years[i] = np.ceil(self.mcf_months[i]/12)
-        return years
-    
-    @property
-    def mcf_rent(self):
-        return mcf_rent_func(self.mcf_months, 
-                             self.mcf_years, 
-                             self.hold_period_m, 
-                             self.monthly_rent, 
-                             self.rent_growth, 
-                             self.hold_period_m)
-    
-    @property
-    def mcf_rent_insur(self):
-        return mcf_rent_func(self.mcf_months, 
-                             self.mcf_years, 
-                             self.hold_period_m, 
-                             (self.renters_insurance/12), 
-                             self.rent_growth, 
-                             self.hold_period_m)
-    
-    @property
-    def mcf_rent_cashflow(self):
-        rent_cf = np.zeros(self.hold_period_m+1)
-        for i in range(len(rent_cf)):
-            rent_cf[i] = self.mcf_rent[i] + self.mcf_rent_insur[i]
-        return rent_cf
-
-    def __str__(self):
-        return self.user_id
-    
-    def was_published_recently(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=7)
-'''
+    initial_equity_NOR = models.FloatField(max_length=7, default=111750)
+    initial_equity_GROSS = models.FloatField(max_length=7, default=111750)
+    max_equity_NOR = models.FloatField(max_length=7, default=111750)
+    max_equity_GROSS = models.FloatField(max_length=7, default=281846)
+    profit_NOR = models.FloatField(max_length=7, default=101631)
+    profit_GROSS = models.FloatField(max_length=7, default=-111796)
+    unlv_irr_NOR = models.FloatField(max_length=5, default=0.076)
+    unlv_irr_GROSS = models.FloatField(max_length=5, default=-0.07)
+    lv_irr_NOR = models.FloatField(max_length=5, default=0.155)
+    lv_irr_GROSS = models.FloatField(max_length=5, default=-0.144)
+    lv_em_NOR = models.FloatField(max_length=5, default=1.91)
+    lv_em_GROSS = models.FloatField(max_length=5, default=0.60)

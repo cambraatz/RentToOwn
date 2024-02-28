@@ -26,45 +26,47 @@ const PurchaseAssumptions = (props) => {
 
     return (
         <div className="inputFields" >
-            <p className="inputHeader">Purchase Assumptions:</p>
-            <Grid container spacing={2}>
-                <Grid xs={6}>
-                    <TextField 
-                        id="purchase_price"  
-                        label="Purchase Price"
-                        variant="outlined" 
-                        InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
-                        fullWidth
+            <h4 className="inputHeader">Purchase Assumptions</h4>
+            <div className="inputDiv">
+                <Grid container spacing={2}>
+                    <Grid xs={6}>
+                        <TextField 
+                            id="purchase_price"  
+                            label="Purchase Price"
+                            variant="outlined" 
+                            InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
+                            fullWidth
 
-                        value={props.purchasePrice}
-                        onChange={handleUserInput}
-                    />
-                </Grid>
-                <Grid xs={4}>
-                    <TextField 
-                        id="hold_period" 
-                        label="Hold Period" 
-                        variant="outlined"  
-                        InputProps={{ endAdornment: <InputAdornment position="end">years</InputAdornment> }}
-                        fullWidth
+                            value={props.purchasePrice}
+                            onChange={handleUserInput}
+                        />
+                    </Grid>
+                    <Grid xs={4}>
+                        <TextField 
+                            id="hold_period" 
+                            label="Hold Period" 
+                            variant="outlined"  
+                            InputProps={{ endAdornment: <InputAdornment position="end">years</InputAdornment> }}
+                            fullWidth
 
-                        value={props.holdingPeriod}
-                        onChange={handleUserInput}
-                    />
-                </Grid>
-                <Grid xs={2}>
-                    <TextField 
-                        id="hold_period_m" 
-                        label="Hold Period" 
-                        variant="outlined"  
-                        InputProps={{ endAdornment: <InputAdornment position="end">months</InputAdornment> }}
-                        fullWidth
-                        disabled
+                            value={props.holdingPeriod}
+                            onChange={handleUserInput}
+                        />
+                    </Grid>
+                    <Grid xs={2}>
+                        <TextField 
+                            id="hold_period_m" 
+                            label="Hold Period" 
+                            variant="outlined"  
+                            InputProps={{ endAdornment: <InputAdornment position="end">months</InputAdornment> }}
+                            fullWidth
+                            disabled
 
-                        value={props.holdingPeriodM}
-                    />
+                            value={props.holdingPeriodM}
+                        />
+                    </Grid>
                 </Grid>
-            </Grid>
+            </div>
         </div>
     )
 };

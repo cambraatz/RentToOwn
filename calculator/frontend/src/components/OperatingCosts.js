@@ -12,7 +12,7 @@ const OperatingCosts = (props) => {
     };
 
     return (
-        <div className="inputFields" >
+        <div className="innerAccord-cont">
             {/* <p className="inputHeader">Operating Costs:</p> */}
             <Grid container spacing={2}>
                 <Grid xs={3}>

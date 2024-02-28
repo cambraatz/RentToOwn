@@ -839,217 +839,107 @@ const InputManager = (props) => {
                     totalRent={totalRent} 
                     rentersInsurance={rentersInsurance} 
                 />
-                <div id="advanced-cont">
-                    <h4 className="inputHeader">Advanced Adjustments</h4>
-                    <div id="accordion-cont">
-                        <Accordion>
-                            <AccordionSummary 
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel-content"
-                                id="panel-header"
-                            >
-                                <p className="accordionHeader">General Assumptions</p> 
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                    {/* <Typography>General Assumptions:</Typography> 
-                                    <p className="accordionHeader">General Assumptions:</p> */}
-                                    <GeneralAssumptions  
-                                        handleUserInput={handleGAInput}
-                                        handleCheck={handleGACheck}
-                                        capitalGains={capitalGains}
-                                        federalTax={federalTax}
-                                        federalTaxBool={federalTaxBool}
-                                        saltLimit={saltLimit}
-                                        saltLimitBool={saltLimitBool}
-                                        rentGrowth={rentGrowth}
-                                        homeAppreciation={homeAppreciation}
-                                        retInflation={retInflation}
-                                        otherInflation={otherInflation}
-                                    />
-                            </AccordionDetails>
-                        </Accordion>
-                        <Accordion>
-                            <AccordionSummary 
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel-content"
-                                id="panel-header"
-                            >
-                                <p className="accordionHeader">Acquisition Costs</p> 
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                    {/* <Typography>Acquisition Costs:</Typography> 
-                                    <p className="accordionHeader">Acquisition Costs:</p> */}
-                                    <AcquisitionCosts 
-                                        handleUserInput={handleACInput}
-                                        inspectionFee={inspectionFee}
-                                        appraisalFee={appraisalFee}
-                                        legalFee={legalFee}
-                                        titleInsuranceRateAq={titleInsuranceRateAq}
-                                        titleInsuranceAq={titleInsuranceAq}
-                                        otherLenderCosts={otherLenderCosts}
-                                        transferTaxRate={transferTaxRate}
-                                        transferTax={transferTax}
-                                        totalAcquisition={totalAcquisition}
-                                    />
-                            </AccordionDetails>
-                        </Accordion>
-                        <Accordion>
-                            <AccordionSummary 
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel-content"
-                                id="panel-header"
-                            >
-                                <p className="accordionHeader">Disposition Costs</p> 
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                    {/* <Typography>Disposition Costs:</Typography>} 
-                                    <p className="accordionHeader">Disposition Costs:</p> */}
-                                    <DispositionCosts 
-                                        handleUserInput={handleDCInput}
-                                        titleInsuranceRateDis={titleInsuranceRateDis}
-                                        titleInsuranceDis={titleInsuranceDis}
-                                        transferTaxRateDis={transferTaxRateDis}
-                                        transferTaxDis={transferTaxDis}
-                                        brokerageRate={brokerageRate}
-                                        brokerageFee={brokerageFee}
-                                        totalDisposition={totalDisposition}
-                                    />
-                            </AccordionDetails>
-                        </Accordion>
-                        <Accordion>
-                            <AccordionSummary 
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel-content"
-                                id="panel-header"
-                            >
-                                <p className="accordionHeader">Operating Costs</p> 
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                    {/* <Typography>Operating Costs:</Typography> 
-                                    <p className="accordionHeader">Operating Costs:</p> */}
-                                    <OperatingCosts 
-                                        handleUserInput={handleOCInput}
-                                        propertyTaxRate={propertyTaxRate}
-                                        propertyTax={propertyTax}
-                                        homeInsuranceRate={homeInsuranceRate}
-                                        homeInsurance={homeInsurance}
-                                        maintenanceRate={maintenanceRate}
-                                        homeMaintenance={homeMaintenance}
-                                        hoaUtilityRate={hoaUtilityRate}
-                                        hoaUtility={hoaUtility}
-                                    />
-                            </AccordionDetails>
-                        </Accordion>
-                        <Accordion>
-                            <AccordionSummary 
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel-content"
-                                id="panel-header"
-                            >
-                                <p className="accordionHeader">Loan Assumptions</p> 
-                            </AccordionSummary>
-                            <AccordionDetails>
+                <div id="accordion-cont">
+                    <Accordion>
+                        <AccordionSummary 
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel-content"
+                            id="panel-header"
+                        >
+                            <p className="accordionHeader">Advanced Adjustments:</p> 
+                            {/* <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                                Advanced Adjustments:
+                            </Typography>
+                            <Typography sx={{ color: 'text.secondary' }}>Fine tune default settings to your specific case.</Typography> */}
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <div>
+                                {/* <Typography>General Assumptions:</Typography> */}
+                                <p className="accordionHeader">General Assumptions:</p>
+                                <GeneralAssumptions  
+                                    handleUserInput={handleGAInput}
+                                    handleCheck={handleGACheck}
+                                    capitalGains={capitalGains}
+                                    federalTax={federalTax}
+                                    federalTaxBool={federalTaxBool}
+                                    saltLimit={saltLimit}
+                                    saltLimitBool={saltLimitBool}
+                                    rentGrowth={rentGrowth}
+                                    homeAppreciation={homeAppreciation}
+                                    retInflation={retInflation}
+                                    otherInflation={otherInflation}
+                                />
 
-                                    {/* <Typography>Loan Assumptions:</Typography> 
-                                    <p className="accordionHeader">Loan Assumptions:</p> */}
-                                    <LoanAssumptions 
-                                        handleUserInput={handleLAInput}
-                                        maxLtvLoanRate={maxLtvLoanRate}
-                                        maxLtvLoan={maxLtvLoan}
-                                        desiredLtvLoan={desiredLtvLoan}
-                                        desiredLtvLoanRate={desiredLtvLoanRate}
-                                        loanInterestRate={loanInterestRate}
-                                        amortPeriod={amortPeriod}
-                                        mortgageInsuranceRate={mortgageInsuranceRate}
-                                        mortgageInsuranceClear={mortgageInsuranceClear}
-                                        mortgagePointsRate={mortgagePointsRate}
-                                        mortgagePoints={mortgagePoints}
-                                    />
-                            </AccordionDetails>
-                        </Accordion>
-                    </div>
+                                {/* <Typography>Acquisition Costs:</Typography> */}
+                                <p className="accordionHeader">Acquisition Costs:</p>
+                                <AcquisitionCosts 
+                                    handleUserInput={handleACInput}
+                                    inspectionFee={inspectionFee}
+                                    appraisalFee={appraisalFee}
+                                    legalFee={legalFee}
+                                    titleInsuranceRateAq={titleInsuranceRateAq}
+                                    titleInsuranceAq={titleInsuranceAq}
+                                    otherLenderCosts={otherLenderCosts}
+                                    transferTaxRate={transferTaxRate}
+                                    transferTax={transferTax}
+                                    totalAcquisition={totalAcquisition}
+                                />
+                                {/* <Typography>Disposition Costs:</Typography>} */}
+                                <p className="accordionHeader">Disposition Costs:</p>
+                                <DispositionCosts 
+                                    handleUserInput={handleDCInput}
+                                    titleInsuranceRateDis={titleInsuranceRateDis}
+                                    titleInsuranceDis={titleInsuranceDis}
+                                    transferTaxRateDis={transferTaxRateDis}
+                                    transferTaxDis={transferTaxDis}
+                                    brokerageRate={brokerageRate}
+                                    brokerageFee={brokerageFee}
+                                    totalDisposition={totalDisposition}
+                                />
+                                {/* <Typography>Operating Costs:</Typography> */}
+                                <p className="accordionHeader">Operating Costs:</p>
+                                <OperatingCosts 
+                                    handleUserInput={handleOCInput}
+                                    propertyTaxRate={propertyTaxRate}
+                                    propertyTax={propertyTax}
+                                    homeInsuranceRate={homeInsuranceRate}
+                                    homeInsurance={homeInsurance}
+                                    maintenanceRate={maintenanceRate}
+                                    homeMaintenance={homeMaintenance}
+                                    hoaUtilityRate={hoaUtilityRate}
+                                    hoaUtility={hoaUtility}
+                                />
+
+                                {/* <Typography>Loan Assumptions:</Typography> */}
+                                <p className="accordionHeader">Loan Assumptions:</p>
+                                <LoanAssumptions 
+                                    handleUserInput={handleLAInput}
+                                    maxLtvLoanRate={maxLtvLoanRate}
+                                    maxLtvLoan={maxLtvLoan}
+                                    desiredLtvLoan={desiredLtvLoan}
+                                    desiredLtvLoanRate={desiredLtvLoanRate}
+                                    loanInterestRate={loanInterestRate}
+                                    amortPeriod={amortPeriod}
+                                    mortgageInsuranceRate={mortgageInsuranceRate}
+                                    mortgageInsuranceClear={mortgageInsuranceClear}
+                                    mortgagePointsRate={mortgagePointsRate}
+                                    mortgagePoints={mortgagePoints}
+                                />
+                            </div>
+                        </AccordionDetails>
+                    </Accordion>
+                    <Button type="submit" variant="contained" id="submitButton" endIcon={<CalculateIcon />}>Update</Button>
+                    {/*<Button onClick={getData} type="submit" variant="contained" id="submitButton" endIcon={<CalculateIcon />}>Update</Button>*/}
                 </div>
-                <Button sx={{ background: '#5A89BB' }} type="submit" variant="contained" id="submitButton" endIcon={<CalculateIcon />}>Update</Button>
-                {/*<Button onClick={getData} type="submit" variant="contained" id="submitButton" endIcon={<CalculateIcon />}>Update</Button> */}
-            </form> 
+            </form>
             <div className="returns_table">
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                         <TableHead>
                             <TableRow>
-                                <TableCell sx={{ color: '#fff' }}>Owner Payments Summary</TableCell>
-                                <TableCell sx={{ color: '#fff' }} align="right">Month</TableCell>
-                                <TableCell sx={{ color: '#fff' }} align="right">Annual</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Interest</TableCell>
-                                <TableCell align="right">${(mcfInterest/12).toFixed(0)}</TableCell>
-                                <TableCell align="right">${mcfInterest.toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Property Tax</TableCell>
-                                <TableCell align="right">${(propertyTax/12).toFixed(0)}</TableCell>
-                                <TableCell align="right">${propertyTax.toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Insurance</TableCell>
-                                <TableCell align="right">${(homeInsurance/12).toFixed(0)}</TableCell>
-                                <TableCell align="right">${homeInsurance.toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Maintenance</TableCell>
-                                <TableCell align="right">${(homeMaintenance/12).toFixed(0)}</TableCell>
-                                <TableCell align="right">${homeMaintenance.toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">HOA/Utilities</TableCell>
-                                <TableCell align="right">${hoaUtility.toFixed(0)}</TableCell>
-                                <TableCell align="right">${(hoaUtility*12).toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Mortgage Insurance</TableCell>
-                                <TableCell align="right">${mcfMortInsPay.toFixed(0)}</TableCell>
-                                <TableCell align="right">${(mcfMortInsPay*12).toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow sx={{ background: '#edf1f5' }} className="row-total">
-                                <TableCell sx={{ fontWeight: 500 }} component="th" scope="row">Subtotal</TableCell>
-                                <TableCell sx={{ fontWeight: 500 }} align="right">${((mcfInterest + propertyTax + homeInsurance + homeMaintenance)/12 + hoaUtility + mcfMortInsPay).toFixed(0)}</TableCell>
-                                <TableCell sx={{ fontWeight: 500 }} align="right">${(mcfInterest + propertyTax + homeInsurance + homeMaintenance + ((hoaUtility + mcfMortInsPay)*12)).toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Amortization</TableCell>
-                                <TableCell align="right">${(amortization/12).toFixed(0)}</TableCell>
-                                <TableCell align="right">${amortization.toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow sx={{ background: '#edf1f5' }} className="row-total">
-                                <TableCell sx={{ fontWeight: 500 }} component="th" scope="row">Total</TableCell>
-                                <TableCell sx={{ fontWeight: 500 }} align="right">${(((mcfInterest + propertyTax + homeInsurance + homeMaintenance)/12 + hoaUtility + mcfMortInsPay) + (amortization/12)).toFixed(0)}</TableCell>
-                                <TableCell sx={{ fontWeight: 500 }} align="right">${((mcfInterest + propertyTax + homeInsurance + homeMaintenance + ((hoaUtility + mcfMortInsPay)*12)) + amortization).toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell component="th" scope="row">Minimum</TableCell>
-                                <TableCell align="right">${((mcfInterest + propertyTax + homeInsurance + amortization)/12 + mcfMortInsPay).toFixed(0)}</TableCell>
-                                <TableCell align="right">${(mcfInterest + propertyTax + homeInsurance + amortization + (mcfMortInsPay*12)).toFixed(0)}</TableCell>
-                            </TableRow>
-                            <TableRow sx={{ background: '#edf1f5' }}>
-                                <TableCell sx={{ fontWeight: 500 }} component="th" scope="row">Apartment Rent</TableCell>
-                                <TableCell sx={{ fontWeight: 500 }} align="right">${(totalRent + (rentersInsurance/12)).toFixed(0)}</TableCell>
-                                <TableCell sx={{ fontWeight: 500 }} align="right">${((totalRent*12) + rentersInsurance).toFixed(0)}</TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
-            <div className="returns_table">
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell sx={{ color: '#fff' }}>Returns</TableCell>
-                                <TableCell sx={{ color: '#fff' }} align="right">Net of Rent</TableCell>
-                                <TableCell sx={{ color: '#fff' }} align="right">Gross</TableCell>
+                                <TableCell>Returns</TableCell>
+                                <TableCell align="right">Net of Rent</TableCell>
+                                <TableCell align="right">Gross</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -1087,16 +977,86 @@ const InputManager = (props) => {
                     </Table>
                 </TableContainer>
             </div>
+            <div className="returns_table">
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Owner Payments Summary</TableCell>
+                                <TableCell align="right">Month</TableCell>
+                                <TableCell align="right">Annual</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell component="th" scope="row">Interest</TableCell>
+                                <TableCell align="right">${(mcfInterest/12).toFixed(0)}</TableCell>
+                                <TableCell align="right">${mcfInterest.toFixed(0)}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell component="th" scope="row">Property Tax</TableCell>
+                                <TableCell align="right">${(propertyTax/12).toFixed(0)}</TableCell>
+                                <TableCell align="right">${propertyTax.toFixed(0)}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell component="th" scope="row">Insurance</TableCell>
+                                <TableCell align="right">${(homeInsurance/12).toFixed(0)}</TableCell>
+                                <TableCell align="right">${homeInsurance.toFixed(0)}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell component="th" scope="row">Maintenance</TableCell>
+                                <TableCell align="right">${(homeMaintenance/12).toFixed(0)}</TableCell>
+                                <TableCell align="right">${homeMaintenance.toFixed(0)}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell component="th" scope="row">HOA/Utilities</TableCell>
+                                <TableCell align="right">${hoaUtility.toFixed(0)}</TableCell>
+                                <TableCell align="right">${(hoaUtility*12).toFixed(0)}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell component="th" scope="row">Mortgage Insurance</TableCell>
+                                <TableCell align="right">${mcfMortInsPay.toFixed(0)}</TableCell>
+                                <TableCell align="right">${(mcfMortInsPay*12).toFixed(0)}</TableCell>
+                            </TableRow>
+                            <TableRow id="subtotal_row">
+                                <TableCell component="th" scope="row">Subtotal</TableCell>
+                                <TableCell align="right">${((mcfInterest + propertyTax + homeInsurance + homeMaintenance)/12 + hoaUtility + mcfMortInsPay).toFixed(0)}</TableCell>
+                                <TableCell align="right">${(mcfInterest + propertyTax + homeInsurance + homeMaintenance + ((hoaUtility + mcfMortInsPay)*12)).toFixed(0)}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell component="th" scope="row">Amortization</TableCell>
+                                <TableCell align="right">${(amortization/12).toFixed(0)}</TableCell>
+                                <TableCell align="right">${amortization.toFixed(0)}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell component="th" scope="row">Total</TableCell>
+                                <TableCell align="right">${(((mcfInterest + propertyTax + homeInsurance + homeMaintenance)/12 + hoaUtility + mcfMortInsPay) + (amortization/12)).toFixed(0)}</TableCell>
+                                <TableCell align="right">${((mcfInterest + propertyTax + homeInsurance + homeMaintenance + ((hoaUtility + mcfMortInsPay)*12)) + amortization).toFixed(0)}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell component="th" scope="row">Minimum</TableCell>
+                                <TableCell align="right">${((mcfInterest + propertyTax + homeInsurance + amortization)/12 + mcfMortInsPay).toFixed(0)}</TableCell>
+                                <TableCell align="right">${(mcfInterest + propertyTax + homeInsurance + amortization + (mcfMortInsPay*12)).toFixed(0)}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell component="th" scope="row">Apartment Rent</TableCell>
+                                <TableCell align="right">${(totalRent + (rentersInsurance/12)).toFixed(0)}</TableCell>
+                                <TableCell align="right">${((totalRent*12) + rentersInsurance).toFixed(0)}</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
 
             <div className="cfTable">
                 <TableContainer component={Paper}>
-                    <h4 className="cf_title">Annual Cash Flow</h4>
+                    <h4>Annual Cash Flow</h4>
                     <div className="ACF_Table" dangerouslySetInnerHTML={{__html: acfTable}}/>
                 </TableContainer>
             </div>
             <div className="cfTable">
                 <TableContainer component={Paper}>
-                    <h4 className="cf_title">Monthly Cash Flow</h4>
+                    <h4>Monthly Cash Flow:</h4>
                     <div className="MCF_Table" dangerouslySetInnerHTML={{__html: mcfTable}}/>
                 </TableContainer>
             </div>

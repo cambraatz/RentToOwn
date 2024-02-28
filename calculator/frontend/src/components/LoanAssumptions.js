@@ -12,7 +12,7 @@ const LoanAssumptions = (props) => {
     };
 
     return (
-        <div className="inputFields" >
+        <div className="innerAccord-cont">
             {/* <p className="inputHeader">Loan Assumptions:</p> */}
             <Grid container spacing={2}>
                 <Grid xs={3}>

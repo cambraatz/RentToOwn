@@ -4,9 +4,6 @@ import datetime
 import pandas as pd
 import numpy as np
 from django.db.models import F
-from computed_property import ComputedCharField, ComputedTextField, ComputedIntegerField
-from django.contrib.postgres.fields import ArrayField
-
 
 # Helper Functions for deriving model properties...
 

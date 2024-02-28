@@ -555,11 +555,14 @@ def gen_mcf(purchase_price, hold_period, hold_period_m, monthly_rent, rent_growt
                 "Levered Net Cash Flow": mcfl_lv_net_cf,
                 "Cum. Gross Equity": mcfl_lv_ge,
                 "Cum. Net Equity": mcfl_lv_ne}
-
     
-    mcf_table = pd.DataFrame(data=mcf_dict).set_index(["Years","Months"]).transpose()
 
-    mcf_html = mcf_table.to_html(border=0)
+    #mcfTable(mcf_dict)
+    
+    #mcf_table = pd.DataFrame(data=mcf_dict).set_index(["Years","Months"]).transpose()
+
+    #mcf_html = mcf_table.to_html(border=0)
+    mcf_html = mcfTable(mcf_dict)
 
     return [mcf_html, mcf_rent, mcf_rent_insur, mcf_rent_cashflow, mcf_acquis, mcf_acquis_costs, mcf_sale, 
             mcf_dispo_costs, mcf_prop_tax, mcf_prop_tax_shield, mcf_insurance, mcf_maintenance, mcf_hoa_dues,
@@ -568,6 +571,87 @@ def gen_mcf(purchase_price, hold_period, hold_period_m, monthly_rent, rent_growt
             mcfl_lv_ge, mcfl_lv_ne, mcfl_total_interest]
 
     #return mcf_html.to_html(border=0)
+
+def mcfTable(dict):
+    dict_key = ["Monthly Rent","Renter's Insurance","Renter's Cash Flow",
+                "Acquisition","Acquisition Costs","Sale","Disposition Costs","Property Tax",
+                "Property Tax Shield","Insurance","Maintenance","Condo Dues",
+                "Unlevered Owner Cash Flow","Unlevered Net Cash Flow","Loan Proceeds",
+                "Loan Repayment","Amortization","Loan Points","Interest","Interest Tax Shield",
+                "Mortgage Insurance","Levered Owner Cash Flow","Levered Net Cash Flow",
+                "Cum. Gross Equity","Cum. Net Equity"]
+
+    
+    response = '<table id="mcfTable"><thead>'
+    y_response = '<tr><th class="mainHeader">Years</th>'
+    m_response = '<tr><th class="mainHeader">Months</th>'
+    item = 0
+
+    # Generate the year/month table headers...
+    for col in dict["Years"]:
+        if item == 0:
+            year = int(dict["Years"][item])
+            y_response += '<td class="secondHeader">{}</td>'.format(year)
+        elif (item % 12) == 0:
+            year = int(dict["Years"][item])
+            #y_response += '<th colspan="12" halign="left">{}</th>'.format(year)
+            y_response += '<td class="secondHeader" colspan="12">{}</td>'.format(year)
+        m_response += '<td class="secondHeader">{}</td>'.format(dict["Months"][item])
+        item += 1
+    
+    y_response += "</tr>"
+    m_response += "</tr>"
+    response += y_response + m_response + '</thead><tbody>'
+
+    # Generate the derived fields as individual rows...
+    for key in dict_key:
+        item = 0
+        response += '<tr class="tableRow"><th class="minorHeader">{}</th>'.format(key)
+        for col in dict[key]:
+            value = np.round(dict[key][item],2)
+            response += '<td>{:.2f}</td>'.format(value)
+            item += 1
+        response += "</tr>"
+
+    response += "</tbody></table>"
+    
+    '''
+    response = '<Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table"><TableHead>'
+    y_response = '<TableRow><TableCell>Years</TableCell>'
+    m_response = '<TableRow><TableCell>Months</TableCell>'
+    item = 0
+
+    # Generate the year/month table headers...
+    for col in dict["Years"]:
+        if item == 0:
+            year = int(dict["Years"][item])
+            y_response += '<TableCell>{}</TableCell>'.format(year)
+        elif (item % 12) == 0:
+            year = int(dict["Years"][item])
+            #y_response += '<th colspan="12" halign="left">{}</th>'.format(year)
+            y_response += '<TableCell colspan="12">{}</TableCell>'.format(year)
+        m_response += '<TableCell>{}</TableCell>'.format(dict["Months"][item])
+        item += 1
+    
+    y_response += "</TableRow>"
+    m_response += "</TableRow>"
+    response += y_response + m_response + '</TableHead><TableBody>'
+    
+    # Generate the derived fields as individual rows...
+    for key in dict_key:
+        item = 0
+        response += '<TableRow class="tableRow"><TableCell component="th" scope="row>{}</TableCell>'.format(key)
+        for col in dict[key]:
+            value = np.round(dict[key][item],2)
+            response += '<TableCell>{:.2f}</TableCell>'.format(value)
+            item += 1
+        response += "</TableRow>"
+
+    response += "</TableBody></Table>"
+    '''
+
+    #print(response)
+    return response
 
 # --------------------------------------------------------------------------------------------------------------- # 
     # Start of ACF Calculations...
@@ -734,8 +818,9 @@ def gen_acf(hold_period, hold_period_m, mcf_rent, mcf_rent_insur, mcf_acquis, mc
                     "Cum. Gross Equity": acfl_lv_ge,
                     "Cum. Net Equity": acfl_lv_ne}
     
-    acf_table = pd.DataFrame(data=acf_dict).set_index(["Years","Months"]).transpose()
-    acf_html = acf_table.to_html(border=0)
+    #acf_table = pd.DataFrame(data=acf_dict).set_index(["Years","Months"]).transpose()
+    #acf_html = acf_table.to_html(border=0)
+    acf_html = acfTable(acf_dict)
 
     return [acf_html, acf_rent, acf_rent_insur, acf_rent_cashflow, acf_acquis, acf_acquis_costs, acf_sale, 
             acf_dispo_costs, acf_prop_tax, acf_prop_tax_shield, acf_insurance, acf_maintenance, acf_hoa_dues, 
@@ -746,7 +831,52 @@ def gen_acf(hold_period, hold_period_m, mcf_rent, mcf_rent_insur, mcf_acquis, mc
 
 
 # --------------------------------------------------------------------------------------------------------------- # 
-    # XIRR Function Definition...
+
+def acfTable(dict):
+    dict_key = ["Monthly Rent","Renter's Insurance","Renter's Cash Flow",
+                "Acquisition","Acquisition Costs","Sale","Disposition Costs","Property Tax",
+                "Property Tax Shield","Insurance","Maintenance","Condo Dues",
+                "Unlevered Owner Cash Flow","Unlevered Net Cash Flow","Loan Proceeds",
+                "Loan Repayment","Amortization","Loan Points","Interest","Interest Tax Shield",
+                "Mortgage Insurance","Levered Owner Cash Flow","Levered Net Cash Flow",
+                "Cum. Gross Equity","Cum. Net Equity"]
+
+    
+    response = '<table id="acfTable"><thead>'
+    y_response = '<tr><th class="mainACFHeader">Years</th>'
+    m_response = '<tr><th class="mainACFHeader">Months</th>'
+    item = 0
+
+    # Generate the year/month table headers...
+    for col in dict["Years"]:
+        year = int(dict["Years"][item])
+        month = int(dict["Months"][item])
+        y_response += '<td class="secondACFHeader">{}</td>'.format(year)
+        m_response += '<td class="secondACFHeader">{}</td>'.format(month)
+        item += 1
+    
+    y_response += "</tr>"
+    m_response += "</tr>"
+    response += y_response + m_response + '</thead><tbody>'
+
+    # Generate the derived fields as individual rows...
+    for key in dict_key:
+        item = 0
+        response += '<tr class="tableRow"><th class="minorHeader">{}</th>'.format(key)
+        for col in dict[key]:
+            value = np.round(dict[key][item],2)
+            response += '<td>{:.2f}</td>'.format(value)
+            item += 1
+        response += "</tr>"
+
+    response += "</tbody></table>"
+    
+
+    #print(response)
+    return response
+
+    
+# XIRR Function Definition...
 
 def xnpv(rate, values, dates):
     '''Equivalent of Excel's XNPV function.

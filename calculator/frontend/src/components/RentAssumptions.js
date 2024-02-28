@@ -34,57 +34,59 @@ const RentAssumptions = (props) => {
 
     return (
         <div className="inputFields" >
-            <p className="inputHeader">Rent Assumptions:</p>
-            <Grid container spacing={2}>
-                <Grid xs={4}>
-                    <TextField 
-                        id="apartment_rent" 
-                        label="Apartment Rent" 
-                        variant="outlined" 
-                        InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
-                        fullWidth
+            <h4 className="inputHeader">Rent Assumptions</h4>
+            <div className="inputDiv">
+                <Grid container spacing={2}>
+                    <Grid xs={4}>
+                        <TextField 
+                            id="apartment_rent" 
+                            label="Apartment Rent" 
+                            variant="outlined" 
+                            InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
+                            fullWidth
 
-                        value={props.apartmentRent}
-                        onChange={handleUserInput}
-                    />
-                </Grid>
-                <Grid xs={3}>
-                    <TextField 
-                        id="parking_rent" 
-                        label="Parking" 
-                        variant="outlined"  
-                        InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
-                        fullWidth
+                            value={props.apartmentRent}
+                            onChange={handleUserInput}
+                        />
+                    </Grid>
+                    <Grid xs={3}>
+                        <TextField 
+                            id="parking_rent" 
+                            label="Parking" 
+                            variant="outlined"  
+                            InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
+                            fullWidth
 
-                        value={props.parking}
-                        onChange={handleUserInput}
-                    />
-                </Grid>
-                <Grid xs={2}>
-                    <TextField 
-                        id="monthly_rent" 
-                        label="Total Rent" 
-                        variant="outlined"  
-                        InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
-                        fullWidth
-                        disabled
+                            value={props.parking}
+                            onChange={handleUserInput}
+                        />
+                    </Grid>
+                    <Grid xs={2}>
+                        <TextField 
+                            id="monthly_rent" 
+                            label="Total Rent" 
+                            variant="outlined"  
+                            InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
+                            fullWidth
+                            disabled
 
-                        value={props.totalRent}
-                    />
-                </Grid>
-                <Grid xs={3}>
-                    <TextField 
-                        id="renters_insurance" 
-                        label="Renter's Insurance" 
-                        variant="outlined"  
-                        InputProps={{ endAdornment: <InputAdornment position="end">/year</InputAdornment> }}
-                        fullWidth
+                            value={props.totalRent}
+                        />
+                    </Grid>
+                    <Grid xs={3}>
+                        <TextField 
+                            id="renters_insurance" 
+                            label="Renter's Insurance" 
+                            variant="outlined"  
+                            InputProps={{ endAdornment: <InputAdornment position="end">/year</InputAdornment> }}
+                            fullWidth
 
-                        value={props.rentersInsurance}
-                        onChange={handleUserInput}
-                    />
+                            value={props.rentersInsurance}
+                            onChange={handleUserInput}
+                        />
+                    </Grid>
                 </Grid>
-            </Grid>
+            </div>
         </div>
     )
 };

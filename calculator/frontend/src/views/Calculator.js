@@ -1,5 +1,5 @@
 import React from 'react';
-import NavBar from '../components/Navbar';
+import NavBar from '../components/NavBar';
 import InputManager from '../components/InputManager';
 import '../../static/css/App.css';
 import '../../static/css/index.css';

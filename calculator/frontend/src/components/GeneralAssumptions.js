@@ -77,7 +77,7 @@ const GeneralAssumptions = (props) => {
     };
 
     return (
-        <div className="inputFields" >
+        <div className="innerAccord-cont">
             {/* <p className="inputHeader">General Assumptions:</p> */}
             <Grid container spacing={2}>
                 <Grid xs={2.5}>

@@ -66,7 +66,7 @@ const AcquisitionCosts = (props) => {
     };
 
     return (
-        <div className="inputFields" >
+        <div className="innerAccord-cont">
             {/* <p className="inputHeader">Acquisition Costs:</p> */}
             <Grid container spacing={2}>
                 <Grid xs={3}>

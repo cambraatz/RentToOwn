@@ -1,0 +1,389 @@
+﻿/*
+#root {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}*/
+
+html {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    position:relative;
+    z-index: -2;
+}
+
+.inputfield {
+    margin: 0 2%;
+    width: 96%;
+}
+.inputfield h3 {
+    margin: 3% 5% 0;
+    color: rgb(175, 175, 175);
+}
+
+.resultsfield {
+  margin: 0 2%;
+  width: 96%;
+}
+.resultsfield h3 {
+  margin: 3% 5% 0;
+  color: rgb(175, 175, 175);
+}
+
+.pilldiv {
+    display: flex;
+    flex-direction: column;
+    padding: 5%;
+    background-color: rgb(225, 225, 225);
+    border-radius: 10px;
+}
+
+.pilldiv h4 {
+    margin-block: 0 3%;
+}
+
+#input1 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#slidercontainer {
+    display: flex;
+    justify-content: end;
+}
+
+.slider {
+  -webkit-appearance: none;  
+  appearance: none;
+  width: 100%; 
+  height: 5px; 
+  margin-block: 0 5%;
+  background: rgb(175, 175, 175); 
+  outline: none; 
+  opacity: 0.7; 
+  -webkit-transition: .2s; 
+  transition: opacity .2s;
+}
+
+.sliderval {
+  display: flex;
+  justify-content: end;
+}
+
+.sliderval div {
+  display: flex;
+  justify-content: end;
+  /*background-color: white;
+  border: 1px solid rgb(175, 175, 175);
+  border-radius: 5px;*/
+  width: 30%;
+}
+
+.sliderval p {
+  margin-block: 0;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; 
+}
+
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; 
+  appearance: none;
+  width: 8px; 
+  height: 25px; 
+  border-radius: 10px;
+  background: #04AA6D; 
+  cursor: pointer; 
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; 
+  height: 25px; 
+  background: #04AA6D; 
+  cursor: pointer; 
+}
+
+.incrementerdiv {
+  display: flex;
+  justify-content: space-between;
+}
+
+.incrementerdiv div {
+  display: flex;
+  gap: 3%;
+  width: 30%;
+}
+
+.incrementerdiv div p {
+  margin-block: 0;
+}
+
+.incrementerdiv div input {
+  width: 100%;
+}
+
+.inputfield button, .resultsfield button {
+  display: inline-block;
+  border-radius: 5px;
+  background-color: #04AA6D;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 1em;
+  padding: 2%;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin-top: 2%;
+}
+.inputfield button:after, .resultsfield button:after {
+  background-color: rgb(175, 175, 175);
+}
+.inputfield button span, .resultsfield button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+.inputfield button span:after, .resultsfield button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+.inputfield button:hover span, .resultsfield button:hover span {
+  padding-right: 25px;
+}
+.inputfield button:hover span:after, .resultsfield button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.border {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* this is tied with .pilldiv */
+.advanced {
+  padding: 5%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(175, 175, 175);
+}
+.advanced img {
+  height: 3em;
+  pointer-events: none;
+}
+.advanced h4 {
+  margin-block: 0;
+  pointer-events: none;
+}
+
+  /* Style the button that is used to open and close the collapsible content */
+.collapsible {
+  cursor: pointer;
+  width: 100%;
+  margin: 0 0 2% 0;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+/*.active, .collapsible:hover {
+  background-color: #84d5b8;
+  *//*background-color: #ccc;*//*
+}*/
+
+/* Style the collapsible content. Note: hidden by default */
+.collapsible_content {
+  /*padding: 10% 5% 5%;*/
+  border-radius: 0 0 10px 10px;
+  background-color: #eee;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out, border-radius 0.5s ease-out;
+}
+
+.double_input {
+  display: flex;
+  justify-content: space-between;
+}
+
+.minor_header {
+  margin-block: 0 3%;
+}
+
+.resultsval {
+  display: flex;
+  justify-content: space-between;
+}
+
+.resultsval div {
+  display: flex;
+  gap: 3%;
+  width: 40%;
+}
+
+.resultsval div p {
+  margin-block: 0;
+}
+
+.resultsval div input {
+  width: 100%;
+}
+
+#results_cutoff {
+  width: auto;
+}
+
+.dlr_div {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dlr_div p {
+  margin-block: 0;
+}
+
+.dlr_div input {
+  width: 20%;
+}
+
+#loan_value {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2%;
+}
+
+#zipcode {
+  display: flex;
+  justify-content: flex-end;
+  margin: 3% 0 3%;
+  flex-direction: column;
+}
+
+#zip {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1%;
+  align-items: flex-end;
+}
+
+#zipcode p {
+  margin-block: 0;
+}
+
+#zipcode input {
+  width: 30%;
+}
+
+.tail {
+  margin: 0 0 3%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tail button {
+  margin: 0;
+}
+
+.non_slider_title {
+  margin-block: 0 0.75em;
+}
+
+.non_slider_2_title {
+  margin-block: 1.33em 0.75em;
+}
+
+#amort_div {
+  gap: 3%;
+}
+
+#click_header {
+  display: flex;
+  height: 30px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 3% 3% 0;
+}
+
+#click_header h3 {
+  margin-block: 0;
+}
+
+#menu_icon {
+  height: 15px;
+  width: 15px;
+}
+
+.result_row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.result_row h4, h5, p {
+  margin-block: 2%;
+}
+.result_row h2 {
+  font-size: 1.25em;;
+  margin-block: 2%;
+}
+
+.subtotal {
+  border-top: 1px solid black;
+}
+.total {
+  border-top: 2px solid black;
+}
+
+.toggle_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1%;
+}
+.toggle {
+  display: flex;
+  height: 50%;
+  width: 30%;
+  justify-content: space-around;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+.toggle_m, .returns_nor {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  border-radius: 10px 0  0 10px;
+  background-color: #81dfbc;
+}
+.toggle_y, .returns_gross {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  border-radius: 0 10px 10px 0;
+  background-color: #eee;
+}
+.toggle p {
+  pointer-events: none;
+  font-size: small;
+}

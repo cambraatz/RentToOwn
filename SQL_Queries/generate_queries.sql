@@ -1,0 +1,61 @@
+USE RVO;
+CREATE TABLE queries (
+    user_id VARCHAR(255),
+    price DECIMAL(10, 2),
+    holding_y INT,
+    holding_m INT,
+
+    rent_m DECIMAL(10, 2),
+    parking_m DECIMAL(10, 2),
+    rent_insur_m DECIMAL(10, 2),
+    total_rent DECIMAL(10, 2),
+
+    cap_gains_rate DECIMAL(5, 2),
+    federal_tax_rate DECIMAL(5, 2),
+    federal_tax_bool BIT,
+    salt_limit DECIMAL(10, 2),
+    salt_limit_bool BIT,
+    rent_growth DECIMAL(5, 2),
+    home_price_appr DECIMAL(5, 2),
+    ret_inflation DECIMAL(5, 2),
+    other_inflation DECIMAL(5, 2),
+
+    inspection DECIMAL(10, 2),
+    appraisal DECIMAL(10, 2),
+    legal_fees DECIMAL(10, 2),
+    title_insur_acq DECIMAL(10, 2),
+    title_insur_acq_rate DECIMAL(5, 2),
+    other_lender_costs DECIMAL(10, 2),
+    transfer_tax_acq DECIMAL(10, 2),
+    transfer_tax_acq_rate DECIMAL(5, 2),
+    total_acquisition DECIMAL(10, 2),
+
+    title_insur_disp DECIMAL(10, 2),
+    transfer_tax_disp DECIMAL(10, 2),
+    transfer_tax_disp_rate DECIMAL(5, 2),
+    broker_fee DECIMAL(10, 2),
+    broker_rate DECIMAL(5, 2),
+    total_disposition DECIMAL(10, 2),
+
+    property_tax DECIMAL(10, 2),
+    property_tax_rate DECIMAL(5, 2),
+    home_insurance DECIMAL(10, 2),
+    home_insurance_rate DECIMAL(5, 2),
+    maintenance DECIMAL(10, 2),
+    maintenance_rate DECIMAL(5, 2),
+    hoa_util DECIMAL(10, 2),
+    hoa_util_rate DECIMAL(5, 2),
+
+    max_loan_ltv DECIMAL(10, 2),
+    max_loan_rate DECIMAL(5, 2),
+    desired_loan_ltv DECIMAL(10, 2),
+    desired_loan_rate DECIMAL(5, 2),
+    loan_rate DECIMAL(5, 2),
+    loan_amortization INT,
+    mortgage_insur_rate DECIMAL(5, 2),
+    mortgage_insur_limit DECIMAL(10, 2),
+    mortgage_points DECIMAL(10, 2),
+    mortgage_points_rate DECIMAL(5, 2),
+
+    PRIMARY KEY (user_id)
+);

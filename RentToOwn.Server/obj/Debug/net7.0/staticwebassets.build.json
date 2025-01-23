@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Hash": "lXcsoM5kYcZFVuZHo5Fou3PbBa+dQq8S0pEtHosh3Ro=",
+  "Source": "RentToOwn.Server",
+  "BasePath": "_content/RentToOwn.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\camer\\Desktop\\Apps\\RentToOwnCalculator\\renttoown.client\\renttoown.client.esproj",
+      "Version": 2,
+      "Source": "renttoown.client",
+      "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentToOwn.Server", "RentToOwn.Server\RentToOwn.Server.csproj", "{B24775AB-FE21-456B-8261-043FFF6E2AE2}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "renttoown.client", "renttoown.client\renttoown.client.esproj", "{6DA36FE2-EE20-4C11-9781-4FD8116E93FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B24775AB-FE21-456B-8261-043FFF6E2AE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B24775AB-FE21-456B-8261-043FFF6E2AE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B24775AB-FE21-456B-8261-043FFF6E2AE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B24775AB-FE21-456B-8261-043FFF6E2AE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DA36FE2-EE20-4C11-9781-4FD8116E93FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DA36FE2-EE20-4C11-9781-4FD8116E93FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DA36FE2-EE20-4C11-9781-4FD8116E93FA}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{6DA36FE2-EE20-4C11-9781-4FD8116E93FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DA36FE2-EE20-4C11-9781-4FD8116E93FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DA36FE2-EE20-4C11-9781-4FD8116E93FA}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9E66E08A-25AB-41DE-A15F-34CB3FE7A194}
+	EndGlobalSection
+EndGlobal

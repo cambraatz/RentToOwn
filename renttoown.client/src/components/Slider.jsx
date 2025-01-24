@@ -12,7 +12,7 @@ const Slider = (props) => {
         value_box = (
             <div className="sliderval">
                 <div>
-                    <input type="number" id={man_id} name={man_id} value={props.value} min={props.min} max={props.max} step={props.step} onChange={props.onChange}/>
+                    <input className="box" type="number" id={man_id} name={man_id} value={props.value} min={props.min} max={props.max} step={props.step} onChange={props.onChange}/>
                     <p>%</p>
                 </div>
             </div>
@@ -24,7 +24,7 @@ const Slider = (props) => {
             <div className="sliderval">
                 <div>
                     <p>$</p>
-                    <input type="number" id={man_id} name={man_id} value={props.value} min={props.min} max={props.max} step={props.step} onChange={props.onChange}/>
+                    <input className="box" type="number" id={man_id} name={man_id} value={props.value} min={props.min} max={props.max} step={props.step} onChange={props.onChange}/>
                 </div>
             </div>
         )
@@ -40,7 +40,7 @@ const Slider = (props) => {
                     </div>
                 </div>
                 <div className="sliderval">
-                    <input type="number" id={man_id2} name={man_id2} value={props.value2} min={props.min} max={props.max} step={props.step} onChange={props.onChange}/>
+                    <input className="box" type="number" id={man_id2} name={man_id2} value={props.value2} min={props.min} max={props.max} step={props.step} onChange={props.onChange}/>
                     <p>%</p>
                 </div>
             </div>
@@ -57,7 +57,7 @@ const Slider = (props) => {
                     </div>*/}
                 </div>
                 <div className="sliderval">
-                    <input type="number" id={man_id2} name={man_id2} value={props.value2} min={props.min} max={props.max} step={props.step} onChange={props.onChange}/>
+                    <input className="box" type="number" id={man_id2} name={man_id2} value={props.value2} min={props.min} max={props.max} step={props.step} onChange={props.onChange}/>
                     <p>%</p>
                 </div>
             </div>
@@ -68,7 +68,7 @@ const Slider = (props) => {
         value_box = (
             <div className="sliderval">
                 <div id="amort_div">
-                    <input type="number" id={man_id} name={man_id} value={props.value} min={props.min} max={props.max} step={props.step} onChange={props.onChange}/>
+                    <input className="box" type="number" id={man_id} name={man_id} value={props.value} min={props.min} max={props.max} step={props.step} onChange={props.onChange}/>
                     <p>years</p>
                 </div>
             </div>
@@ -79,7 +79,7 @@ const Slider = (props) => {
         value_box = (
             <div className="sliderval">
                 <div id="amort_div">
-                    <input type="number" id={man_id} name={man_id} value={props.value} min={props.min} max={props.max} step={props.step} onChange={props.onChange}/>
+                    <input className="box" type="number" id={man_id} name={man_id} value={props.value} min={props.min} max={props.max} step={props.step} onChange={props.onChange}/>
                     <p>years</p>
                 </div>
             </div>

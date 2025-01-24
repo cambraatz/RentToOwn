@@ -97,11 +97,11 @@ const AcquisitionCosts = (props) => {
                 <div className="resultsval">
                     <div>
                         <p>$</p>
-                        <input type="number" id="transfer_tax_acq" name="transfer_tax_acq" value={form.transfer_tax_acq} onChange={handleSliderChange} disabled/>
+                        <input className="box" type="number" id="transfer_tax_acq" name="transfer_tax_acq" value={form.transfer_tax_acq} onChange={handleSliderChange} disabled/>
                     </div>
                 </div>
                 <div className="sliderval">
-                    <input type="number" id="transfer_tax_acq_rate" name="transfer_tax_acq_rate" value={form.transfer_tax_acq_rate} min="0" max="5" step="0.1" onChange={handleSliderChange}/>
+                    <input className="box" type="number" id="transfer_tax_acq_rate" name="transfer_tax_acq_rate" value={form.transfer_tax_acq_rate} min="0" max="5" step="0.1" onChange={handleSliderChange}/>
                     <p>%</p>
                 </div>
             </div>
@@ -120,7 +120,7 @@ const AcquisitionCosts = (props) => {
                 <div className="incrementerdiv">
                     <div>
                         <p>$</p>
-                        <input type="number" name="quantity" value={form.total_acquisition} onChange={handleSliderChange} disabled/>
+                        <input className="box" type="number" name="quantity" value={form.total_acquisition} onChange={handleSliderChange} disabled/>
                     </div>
                 </div>
             </div>

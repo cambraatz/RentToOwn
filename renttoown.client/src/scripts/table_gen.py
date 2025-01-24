@@ -668,73 +668,73 @@ class CashFlow:
         self.ALCF = AnnualLeveredCashFlow(query, self.MLCF, self.ARCF, self.AUCF)
 
         self.mcf_dict = {
-            "Years": query.years,
-            "Months": query.months,
-            "Rent": self.MRCF.rent,
-            "Renter's Insurance": self.MRCF.rent_insur,
-            "Renter's Cash Flow": self.MRCF.rent_cashflow,
-            "Acquisition": self.MUCF.acquis,
-            "Acquisition Costs": self.MUCF.acquis_costs,
-            "Sale": self.MUCF.sale,
-            "Disposition Costs": self.MUCF.dispo_costs,
-            "Property Tax": self.MUCF.prop_tax,
-            "Property Tax Shield": self.MUCF.prop_tax_shield,
-            "Insurance": self.MUCF.insurance,
-            "Maintenance": self.MUCF.maintenance,
-            "Condo Dues": self.MUCF.hoa_dues,
-            "Unlevered Owner Cash Flow": self.MUCF.unlv_own_cf,
-            "Unlevered Net Cash Flow": self.MUCF.unlv_net_cf,
-            "Loan Proceeds": self.MLCF.loan_proc,
-            "Loan Repayment": self.MLCF.loan_repay,
-            "Amortization": self.MLCF.amort,
-            "Loan Points": self.MLCF.loan_points,
-            "Interest": self.MLCF.interest,
-            "Interest Tax Shield": self.MLCF.interest_tax_shield,
-            "Mortgage Insurance": self.MLCF.mortgage_insurance,
-            "Levered Owner Cash Flow": self.MLCF.lv_own_cf,
-            "Levered Net Cash Flow": self.MLCF.lv_net_cf,
-            "Cum. Gross Equity": self.MLCF.gross_equity,
-            "Cum. Net Equity": self.MLCF.net_equity}
+            "years": query.years,
+            "months": query.months,
+            "rent": self.MRCF.rent,
+            "rent_insurance": self.MRCF.rent_insur,
+            "rent_cf": self.MRCF.rent_cashflow,
+            "acquisition": self.MUCF.acquis,
+            "acquisition_costs": self.MUCF.acquis_costs,
+            "sale": self.MUCF.sale,
+            "disposition_costs": self.MUCF.dispo_costs,
+            "property_tax": self.MUCF.prop_tax,
+            "property_tax_shield": self.MUCF.prop_tax_shield,
+            "insurance": self.MUCF.insurance,
+            "maintenance": self.MUCF.maintenance,
+            "hoa_dues": self.MUCF.hoa_dues,
+            "unlevered_cf": self.MUCF.unlv_own_cf,
+            "unlevered_net_cf": self.MUCF.unlv_net_cf,
+            "loan_proceeds": self.MLCF.loan_proc,
+            "loan_repayment": self.MLCF.loan_repay,
+            "amortization": self.MLCF.amort,
+            "loan_points": self.MLCF.loan_points,
+            "interest": self.MLCF.interest,
+            "interest_tax_shield": self.MLCF.interest_tax_shield,
+            "mortgage_insurance": self.MLCF.mortgage_insurance,
+            "levered_cf": self.MLCF.lv_own_cf,
+            "levered_net_cf": self.MLCF.lv_net_cf,
+            "cum_equity": self.MLCF.gross_equity,
+            "cum_net_equity": self.MLCF.net_equity}
         
         self.acf_dict = {
-            "Years": [year for year in range(query.hold_period+1)],
-            "Months": [year*12 for year in range(query.hold_period+1)],
-            "Rent": self.ARCF.rent,
-            "Renter's Insurance": self.ARCF.rent_insur,
-            "Renter's Cash Flow": self.ARCF.rent_cashflow,
-            "Acquisition": self.AUCF.acquis,
-            "Acquisition Costs": self.AUCF.acquis_costs,
-            "Sale": self.AUCF.sale,
-            "Disposition Costs": self.AUCF.dispo_costs,
-            "Property Tax": self.AUCF.prop_tax,
-            "Property Tax Shield": self.AUCF.prop_tax_shield,
-            "Insurance": self.AUCF.insurance,
-            "Maintenance": self.AUCF.maintenance,
-            "Condo Dues": self.AUCF.hoa_dues,
-            "Unlevered Owner Cash Flow": self.AUCF.unlv_own_cf,
-            "Unlevered Net Cash Flow": self.AUCF.unlv_net_cf,
-            "Loan Proceeds": self.ALCF.loan_proc,
-            "Loan Repayment": self.ALCF.loan_repay,
-            "Amortization": self.ALCF.amort,
-            "Loan Points": self.ALCF.loan_points,
-            "Interest": self.ALCF.interest,
-            "Interest Tax Shield": self.ALCF.interest_tax_shield,
-            "Mortgage Insurance": self.ALCF.mortgage_insurance,
-            "Levered Owner Cash Flow": self.ALCF.lv_own_cf,
-            "Levered Net Cash Flow": self.ALCF.lv_net_cf,
-            "Cum. Gross Equity": self.ALCF.lv_ge,
-            "Cum. Net Equity": self.ALCF.lv_ne}
+            "years": [year for year in range(query.hold_period+1)],
+            "months": [year*12 for year in range(query.hold_period+1)],
+            "rent": self.ARCF.rent,
+            "renter_insurance": self.ARCF.rent_insur,
+            "rent_cf": self.ARCF.rent_cashflow,
+            "acquisition": self.AUCF.acquis,
+            "acquisition_costs": self.AUCF.acquis_costs,
+            "sale": self.AUCF.sale,
+            "disposition_costs": self.AUCF.dispo_costs,
+            "property_tax": self.AUCF.prop_tax,
+            "property_tax_shield": self.AUCF.prop_tax_shield,
+            "insurance": self.AUCF.insurance,
+            "maintenance": self.AUCF.maintenance,
+            "hoa_dues": self.AUCF.hoa_dues,
+            "unlevered_cf": self.AUCF.unlv_own_cf,
+            "unlevered_net_cf": self.AUCF.unlv_net_cf,
+            "loan_proceeds": self.ALCF.loan_proc,
+            "loan_repayment": self.ALCF.loan_repay,
+            "amortization": self.ALCF.amort,
+            "loan_points": self.ALCF.loan_points,
+            "interest": self.ALCF.interest,
+            "interest_tax_shield": self.ALCF.interest_tax_shield,
+            "mortgage_insurance": self.ALCF.mortgage_insurance,
+            "levered_cf": self.ALCF.lv_own_cf,
+            "levered_net_cf": self.ALCF.lv_net_cf,
+            "cum_equity": self.ALCF.lv_ge,
+            "cum_net_equity": self.ALCF.lv_ne}
         
     def __str__(self, cf):
         for field,values in self.mcf_dict.items() if cf == "mcf" else self.acf_dict.items():
-            if field == "Years" or field == "Months":
+            if field == "years" or field == "months":
                 continue
 
-            if field == "Rent":
+            if field == "rent":
                 print("\nRent Scenario:")
-            elif field == "Acquisition":
+            elif field == "scquisition":
                 print("\nOwn Scenario:")
-            elif field == "Loan Proceeds":
+            elif field == "loan_proceeds":
                 print("\nLoan Cash Flow:")
             
             if sum(values) < 0:
@@ -744,9 +744,9 @@ class CashFlow:
 
     def __df__(self, cf, transpose=False):  
         if transpose:
-            return pd.DataFrame(data=self.mcf_dict if cf == "mcf" else self.acf_dict).set_index(["Years","Months"]).transpose()
+            return pd.DataFrame(data=self.mcf_dict if cf == "mcf" else self.acf_dict).set_index(["years","months"]).transpose()
         
-        return pd.DataFrame(data=self.mcf_dict if cf == "mcf" else self.acf_dict).set_index(["Years","Months"])
+        return pd.DataFrame(data=self.mcf_dict if cf == "mcf" else self.acf_dict).set_index(["years","months"])
     
 '''
 initialization logic...

@@ -44,7 +44,7 @@ const LoanAssumptions = (props) => {
                     <div>
                         <p>zipcode</p>
                     </div>
-                    <input type="number" name="quantity" value={zipcode} onChange={handleSliderChange}/>
+                    <input className="box" type="number" name="quantity" value={zipcode} onChange={handleSliderChange}/>
                 </div>
             </div>
             <h4 className="non_slider_title">max loan ltv</h4>
@@ -52,11 +52,11 @@ const LoanAssumptions = (props) => {
                 <div className="resultsval">
                     <div>
                     <p>$</p>
-                    <input type="number" id="max_loan_ltv" name="max_loan_ltv" value={form.max_loan_ltv} onChange={handleSliderChange}/>
+                    <input className="box" type="number" id="max_loan_ltv" name="max_loan_ltv" value={form.max_loan_ltv} onChange={handleSliderChange}/>
                     </div>
                 </div>
                 <div className="dlr_div">
-                    <input type="number" id="max_loan_rate" name="max_loan_rate" value={form.max_loan_rate} onChange={handleSliderChange} disabled/>
+                    <input className="box" type="number" id="max_loan_rate" name="max_loan_rate" value={form.max_loan_rate} onChange={handleSliderChange} disabled/>
                     <p>%</p>
                 </div>
             </div>
@@ -94,11 +94,11 @@ const LoanAssumptions = (props) => {
                 <div className="resultsval">
                     <div>
                         <p>$</p>
-                        <input type="number" id="desired_loan_ltv" name="desired_loan_ltv" value={form.desired_loan_ltv} onChange={handleSliderChange} disabled/>
+                        <input className="box" type="number" id="desired_loan_ltv" name="desired_loan_ltv" value={form.desired_loan_ltv} onChange={handleSliderChange} disabled/>
                     </div>
                 </div>
                 <div className="dlr_div">
-                    <input type="number" id="desired_loan_rate" name="desired_loan_rate" value={form.desired_loan_rate} onChange={handleSliderChange} disabled/>
+                    <input className="box" type="number" id="desired_loan_rate" name="desired_loan_rate" value={form.desired_loan_rate} onChange={handleSliderChange} disabled/>
                     <p>%</p>
                 </div>
             </div>

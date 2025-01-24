@@ -24,10 +24,10 @@ const Home = () => {
         holding_y: 5,
         holding_m: 60,
 
-        rent_m: 4000,
-        parking_m: 200,
-        rent_insur_m: 200,
-        total_rent: 4400,
+        rent_m: 3000,
+        parking_m: 300,
+        rent_insur_m: 600,
+        total_rent: 3300,
 
         //general assumptions...
         cap_gains_rate: 20.0,
@@ -81,6 +81,9 @@ const Home = () => {
         mortgage_points: 4000,
         mortgage_points_rate: 1
     });
+
+    const [monthlyCF, setMonthlyCF] = useState({});
+    const [annualCF, setAnnualCF] = useState({});
 
     const navigate = useNavigate();
 
@@ -283,7 +286,7 @@ const Home = () => {
         //navigate("/response");
         const query = {
             ...form,
-            user_id: "testUser" + Math.floor(Math.random() * 1000)
+            user_id: "testUser" + Math.floor(Math.random() * 10000)
         };
 
         //console.log("form: ", form);
@@ -312,14 +315,175 @@ const Home = () => {
                 throw new Error(`HTTP error!  status: ${response.status}`)
             }
 
-            const result = await response.json();
-            console.log("response: ", response);
-            console.log("result: ", result)
+            const data = await response.json();
+            setMonthlyCF(data.mcf);
+            setAnnualCF(data.acf);
+
+            console.log(data.mcf);
+            console.log(data.acf);
+
         } catch (error) {
             console.error("Error posting query:", error);
         }
     }
 
+    const sum = (arr) => {
+        return arr.reduce(function (a,b) {
+            return a + b;
+        }, 0);
+    }
+
+    const generateACFTable = () => {
+        if (annualCF.years) {
+            const table = document.getElementById('top_table');
+            table.scrollTo({
+                behavior: 'smooth',
+                block: 'center'
+            });
+
+            return(
+                <>
+                <h3 className="table_caption">annual cash flow</h3>
+                <div className="table_div">
+                    <table id="acf_table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Total</th>
+                                {annualCF.years.map((year, index) => (
+                                    <th key={"acf_year"+index}>{year}</th>
+                                ))}
+                            </tr>
+                            <tr>
+                                <th>Month</th>
+                                <th></th>
+                                {annualCF.months.map((month, index) => (
+                                    <th key={"acf_month"+{month}+index}>{month}</th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Renter</th>
+                                <td>{Math.round(sum(annualCF.rent_cf))}</td>
+                                {annualCF.rent_cf.map((rent, index) => (
+                                    <td key={"acf_rentcf"+index}>{Math.round(rent)}</td>
+                                ))}
+                            </tr>
+                            <tr>
+                                <th>Unlevered Owner</th>
+                                <td>{Math.round(sum(annualCF.unlevered_cf))}</td>
+                                {annualCF.unlevered_cf.map((cf, index) => (
+                                    <td key={"acf_unleveredcf"+index}>{Math.round(cf)}</td>
+                                ))}
+                            </tr>
+                            <tr>
+                                <th>Unlevered Owner Net</th>
+                                <td>{Math.round(sum(annualCF.unlevered_net_cf))}</td>
+                                {annualCF.unlevered_net_cf.map((cf, index) => (
+                                    <td key={"acf_unleverednetcf"+index}>{Math.round(cf)}</td>
+                                ))}
+                            </tr>
+                            <tr>
+                                <th>Levered Owner</th>
+                                <td>{Math.round(sum(annualCF.levered_cf))}</td>
+                                {annualCF.levered_cf.map((cf, index) => (
+                                    <td key={"acf_leveredcf"+index}>{Math.round(cf)}</td>
+                                ))}
+                            </tr>
+                            <tr>
+                                <th>Levered Owner Net</th>
+                                <td>{Math.round(sum(annualCF.levered_net_cf))}</td>
+                                {annualCF.levered_net_cf.map((cf, index) => (
+                                    <td key={"acf_leverednetcf"+index}>{Math.round(cf)}</td>
+                                ))}
+                            </tr>
+                            <tr>
+                                <th>Cum. Gross Equity</th>
+                                <td></td>
+                                {annualCF.cum_equity.map((cf, index) => (
+                                    <td key={"acf_cumequity"+index}>{Math.round(cf)}</td>
+                                ))}
+                            </tr>
+                            <tr>
+                                <th>Cum. Net Equity</th>
+                                <td></td>
+                                {annualCF.cum_net_equity.map((cf, index) => (
+                                    <td key={"acf_cumnetequity"+index}>{Math.round(cf)}</td>
+                                ))}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                </>
+        )};
+    };
+
+    const generateMCFTable = () => {
+        if (monthlyCF.years) {
+            return(
+                <>
+                <h3 className="table_caption" id="bottom_table">monthly cash flow</h3>
+                <div className="table_div">
+                    <table id="mcf_table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Total</th>
+                                {annualCF.years.map((year, index) => (
+                                    <th key={"mcf_year"+index} colSpan="12">{year+1}</th>
+                                ))}
+                            </tr>
+                            <tr>
+                                <th>Month</th>
+                                <th></th>
+                                {monthlyCF.months.map((month, index) => (
+                                    <th key={"mcf_month"+{month}+index}>{month}</th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Renter</th>
+                                <td>{Math.round(sum(monthlyCF.rent_cf))}</td>
+                                {monthlyCF.rent_cf.map((rent, index) => (
+                                    <td key={"mcf_rentcf"+index}>{Math.round(rent)}</td>
+                                ))}
+                            </tr>
+                            <tr>
+                                <th>Unlevered Owner</th>
+                                <td>{Math.round(sum(monthlyCF.unlevered_cf))}</td>
+                                {monthlyCF.unlevered_cf.map((cf, index) => (
+                                    <td key={"mcf_unleveredcf"+index}>{Math.round(cf)}</td>
+                                ))}
+                            </tr>
+                            <tr>
+                                <th>Unlevered Owner Net</th>
+                                <td>{Math.round(sum(monthlyCF.unlevered_net_cf))}</td>
+                                {monthlyCF.unlevered_net_cf.map((cf, index) => (
+                                    <td key={"mcf_unleverednetcf"+index}>{Math.round(cf)}</td>
+                                ))}
+                            </tr>
+                            <tr>
+                                <th>Levered Owner</th>
+                                <td>{Math.round(sum(monthlyCF.levered_cf))}</td>
+                                {monthlyCF.levered_cf.map((cf, index) => (
+                                    <td key={"mcf_leveredcf"+index}>{Math.round(cf)}</td>
+                                ))}
+                            </tr>
+                            <tr>
+                                <th>Levered Owner Net</th>
+                                <td>{Math.round(sum(monthlyCF.levered_net_cf))}</td>
+                                {monthlyCF.levered_net_cf.map((cf, index) => (
+                                    <td key={"mcf_leverednetcf"+index}>{Math.round(cf)}</td>
+                                ))}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                </>
+        )};
+    };
 
     //
     // render template...
@@ -344,11 +508,11 @@ const Home = () => {
                     <h4>holding period</h4>
                     <div className="incrementerdiv">
                         <div>
-                            <input type="number" name="quantity" value={form.holding_y} min="0" max="60" step="1" onChange={handleHPChange}/>
+                            <input className="box" type="number" name="quantity" value={form.holding_y} min="0" max="60" step="1" onChange={handleHPChange}/>
                             <span>years</span>
                         </div>
                         <div>
-                            <input type="number" name="quantity" value={form.holding_m} min="0" max="720" disabled />
+                            <input className="box" type="number" name="quantity" value={form.holding_m} min="0" max="720" disabled />
                             <span>months</span>
                         </div>
                     </div>
@@ -400,7 +564,7 @@ const Home = () => {
                 </div>
             </div>
             <div className="border">
-                <button className="button" onClick={handleClick}><span>send query</span></button>
+                <button className="button" onClick={handleClick}><span>generate table</span></button>
             </div>
             <h3>advanced analysis</h3>
             <div id="ga_tab" className="collapsible">
@@ -419,9 +583,13 @@ const Home = () => {
                 <LoanAssumptions data={form} onChange={handleSliderChange} onClick={expandClick}/>
             </div>
             <div className="tail">
-                <button className="button" onClick={handleClick}><span>send query</span></button>
+                <button className="button" onClick={handleClick}><span>generate table</span></button>
             </div>
         </form>
+
+        <span id="top_table"></span>
+        {generateACFTable()}
+        {generateMCFTable()}
         </>
     )
 };

@@ -63,7 +63,7 @@ const DispositionCosts = (props) => {
                 <div className="incrementerdiv">
                     <div>
                         <p>$</p>
-                        <input type="number" name="quantity" value={form.total_disposition} onChange={handleSliderChange} disabled/>
+                        <input className="box" type="number" name="quantity" value={form.total_disposition} onChange={handleSliderChange} disabled/>
                     </div>
                 </div>
             </div>

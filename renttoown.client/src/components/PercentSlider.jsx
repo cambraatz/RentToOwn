@@ -15,7 +15,7 @@ const PercentSlider = (props) => {
                     <p className="minor_header">pmi threshold</p>
                     <div className="resultsval">
                         <div id="results_cutoff">
-                            <input type="number" id={man_id} name={man_id} value={props.value} min="0" max="100" onChange={props.onChange}/>
+                            <input className="box" type="number" id={man_id} name={man_id} value={props.value} min="0" max="100" onChange={props.onChange}/>
                             <p>%</p>
                         </div>
                     </div>
@@ -23,7 +23,7 @@ const PercentSlider = (props) => {
                 <div>
                     <p className="minor_header">rate</p>
                     <div className="sliderval">
-                        <input type="number" id={man_id2} name={man_id2} value={props.value2} min={props.min} max={props.max} step={props.step} onChange={props.onChange}/>
+                        <input className="box" type="number" id={man_id2} name={man_id2} value={props.value2} min={props.min} max={props.max} step={props.step} onChange={props.onChange}/>
                         <p>%</p>
                     </div>
                 </div>
@@ -36,11 +36,11 @@ const PercentSlider = (props) => {
                 <div className="resultsval">
                     <div>
                         <p>$</p>
-                        <input type="number" id={man_id} name={man_id} value={props.value} onChange={props.onChange} disabled/>
+                        <input className="box" type="number" id={man_id} name={man_id} value={props.value} onChange={props.onChange} disabled/>
                     </div>
                 </div>
                 <div className="sliderval">
-                    <input type="number" id={man_id2} name={man_id2} value={props.value2} min={props.min} max={props.max} step={props.step} onChange={props.onChange}/>
+                    <input className="box" type="number" id={man_id2} name={man_id2} value={props.value2} min={props.min} max={props.max} step={props.step} onChange={props.onChange}/>
                     <p>%</p>
                 </div>
             </div>
